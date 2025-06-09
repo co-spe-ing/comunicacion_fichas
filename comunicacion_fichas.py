@@ -7,8 +7,7 @@ from streamlit_gsheets import GSheetsConnection
 conn = st.connection("gsheets", type=GSheetsConnection)
 df = conn.read()
 # Print results.
-for row in df.itertuples():
-    st.write(f"{row.name} has a :{row.pet}:")
+st.dataframe(df.head())
 
 with st.form("my_form"):
     st.write("Inside the form")
