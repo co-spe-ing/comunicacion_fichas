@@ -3,7 +3,6 @@ import os
 import pandas as pd
 import openpyxl
 
-funcionarios = pd.read_excel("C:/Users/econtrerasb1/Documents/TAREA CARPETAS/COMUNICACIÓN_FICHAS.xlsx")
 
 
 with st.form("my_form"):
