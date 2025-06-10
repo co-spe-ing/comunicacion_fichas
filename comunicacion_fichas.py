@@ -8,9 +8,17 @@ import requests
 
 st.write("hola 10 de junio ...")
 
-conn = st.connection("migsheet", type=GSheetsConnection)
-df = conn.read(worksheet="Hoja1")
-st.dataframe(df.head())
+# Initialize connection.
+conn = st.connection("postgresql", type="sql")
+# Perform query.
+conn.query('CREATE TABLE employees (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    age INT CHECK (age > 18),
+    department VARCHAR(50),
+    hired_date DATE DEFAULT CURRENT_DATE
+);
+', ttl="10m")
 
 """
 sheet_name = 'Hoja1'
