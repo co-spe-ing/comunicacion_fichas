@@ -11,7 +11,7 @@ st.write("hola 10 de junio ...")
 # Initialize connection.
 conn = st.connection("postgresql", type="sql")
 # Perform query.
-conn.query('SELECT table_name FROM information_schema.tables WHERE table_schema = "public";', ttl="10m")
+conn.query("SELECT version();", ttl="10m")
 
 
 
