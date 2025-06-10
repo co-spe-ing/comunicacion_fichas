@@ -1,5 +1,4 @@
 import streamlit as st
-import os
 import pandas as pd
 import openpyxl
 from streamlit_gsheets import GSheetsConnection
