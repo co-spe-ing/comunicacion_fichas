@@ -1,3 +1,5 @@
 pandas
 openpyxl
 st-gsheets-connection
+psycopg2-binary
+sqlalchemy
