@@ -8,16 +8,19 @@ import requests
 
 st.write("hola 10 de junio :)")
 
+conn = st.connection("gsheets", type=GSheetsConnection)
+df = conn.read(worksheet="Hoja1")
+st.dataframe(df.head())
+
+"""
 sheet_name = 'Hoja1'
 sheet_id = '1dyHiJaR3UySmG_7gQtamrDVfAqYFR_xW' 
 url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet={sheet_name}"
-
 r = requests.get(url)
 data = r.content
 df = pd.read_csv(BytesIO(data), index_col=0)
-
 st.dataframe(df.head())
-
+"""
 
 
 with st.form("my_form"):
