@@ -11,7 +11,10 @@ st.write("hola 10 de junio ...")
 # Initialize connection.
 conn = st.connection("postgresql", type="sql")
 # Perform query.
-conn.query('CREATE TABLE employees (id SERIAL PRIMARY KEY, name VARCHAR(100) NOT NULL);', ttl="10m")
+conn.query('SELECT table_name FROM information_schema.tables WHERE table_schema = "public";', ttl="10m")
+
+
+
 
 """
 sheet_name = 'Hoja1'
