@@ -5,7 +5,7 @@ import openpyxl
 from streamlit_gsheets import GSheetsConnection
 
 conn = st.connection("gsheets", type=GSheetsConnection)
-st.write("prueba 1")
+st.write("prueba 10 de junio")
 df = conn.read()
 # Print results.
 st.dataframe(df.head())
