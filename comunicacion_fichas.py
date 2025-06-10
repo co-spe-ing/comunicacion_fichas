@@ -3,6 +3,8 @@ import pandas as pd
 import openpyxl
 from streamlit_gsheets import GSheetsConnection
 
+st.write("hola 10 de junio")
+
 url = "https://docs.google.com/spreadsheets/d/1dyHiJaR3UySmG_7gQtamrDVfAqYFR_xW/edit?gid=1506068283#gid=1506068283"
 conn = st.connection("gsheets", type=GSheetsConnection)
 data = conn.read(spreadsheet=url)
