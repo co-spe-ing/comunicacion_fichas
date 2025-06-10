@@ -6,9 +6,9 @@ from io import BytesIO
 import requests
 
 
-st.write("hola 10 de junio :)")
+st.write("hola 10 de junio ...")
 
-conn = st.connection("gsheets", type=GSheetsConnection)
+conn = st.connection("migsheet", type=GSheetsConnection)
 df = conn.read(worksheet="Hoja1")
 st.dataframe(df.head())
 
