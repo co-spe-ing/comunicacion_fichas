@@ -11,8 +11,8 @@ st.write("hola 10 de junio ...")
 # Initialize connection.
 conn = st.connection("postgresql", type="sql")
 # Perform query.
-conn.query("SELECT version();", ttl="10m")
-
+df = conn.query("SELECT version();", ttl="10m")
+st.dataframe(df)
 
 
 
