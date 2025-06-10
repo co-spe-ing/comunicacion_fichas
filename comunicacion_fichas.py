@@ -4,11 +4,11 @@ import pandas as pd
 import openpyxl
 from streamlit_gsheets import GSheetsConnection
 
+url = "https://docs.google.com/spreadsheets/d/1dyHiJaR3UySmG_7gQtamrDVfAqYFR_xW/edit?gid=1506068283#gid=1506068283"
 conn = st.connection("gsheets", type=GSheetsConnection)
-st.write("prueba 10 de junio")
-df = conn.read()
-# Print results.
-st.dataframe(df.head())
+data = conn.read(spreadsheet=url)
+st.dataframe(data.head())
+
 
 with st.form("my_form"):
     st.write("Inside the form")
