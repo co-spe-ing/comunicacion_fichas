@@ -43,66 +43,13 @@ sql = """INSERT INTO employees (name, age, department) VALUES
 """
 cursor.execute(sql)
 
-sql = """SELECT * FROM employees;"""
-cursor.execute(sql)
-rows = cursor.fetchall()
-col_names = [desc[0] for desc in cursor.description]
-df = pd.DataFrame(rows, columns=col_names)
-st.dataframe(df)
-
-###################################################################
-# CREAR TABLAS
-###################################################################
-
-sqlTabla1 = """CREATE TABLE personas (
-    cedula VARCHAR(20) PRIMARY KEY,
-    nombres VARCHAR(100) NOT NULL,
-    apellidos VARCHAR(100) NOT NULL,
-    cargo VARCHAR(100) NOT NULL,
-    tipoNombramiento VARCHAR(100) NOT NULL,
-    nivel2 VARCHAR(200) NOT NULL,
-    nivel3 VARCHAR(200) NOT NULL,
-    nivel4 VARCHAR(200) NOT NULL,
-    proceso VARCHAR(300) NOT NULL,
-    subproceso VARCHAR(300) NOT NULL
-    );"""
-sqlTabla2 = """CREATE TABLE fichas (
-    cedula VARCHAR(20) PRIMARY KEY,
-    ficha VARCHAR(12) NOT NULL,
-    fechaComunicacion DATE NOT NULL,
-    motivoCambio VARCHAR(30) NOT NULL,
-    observaciones VARCHAR(2000) NOT NULL
-    );"""
-cursor.execute("DROP TABLE IF EXISTS personas;")
-cursor.execute("DROP TABLE IF EXISTS fichas;")
-cursor.execute(sqlTabla1)
-cursor.execute(sqlTabla2)
-
-###################################################################
-# INSERTAR DATOS DE PERSONAS EN TABLA
-###################################################################
-doc_id = '1dyHiJaR3UySmG_7gQtamrDVfAqYFR_xW'
-sheet_id = '1506068283'
-sheet_url = f'https://docs.google.com/spreadsheets/d/{doc_id}/export?format=csv&gid={sheet_id}'
-personas = pd.read_csv(sheet_url)
-st.dataframe(personas.head())
-
-for k, row in personas.iterrows():
-    cursor.execute(
-        """INSERT INTO personas (cedula, nombres, apellidos, cargo, tipoNombramiento, nivel2, nivel3, nivel4, proceso, subproceso) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-        (row["Identificación"], row["Nombres"], row["Apellidos"], row["Cargo"], row["Tipo Nombramiento"], row["Dependencia Nivel 2"], row["Dependencia Nivel 3"], row["Dependencia Nivel 4"], row["Proceso"], row["Subproceso"])
-    )
-    st.write(k)
-
-st.write("ya insertó!!!")
-
 sql = """SELECT * FROM personas;"""
 cursor.execute(sql)
 rows = cursor.fetchall()
 col_names = [desc[0] for desc in cursor.description]
 df = pd.DataFrame(rows, columns=col_names)
 st.dataframe(df.head())
+
 
 
 ###################################################################
@@ -123,3 +70,57 @@ with st.form("my_form"):
     if submitted:
         st.write("slider", slider_val, "checkbox", checkbox_val)
 st.write("Outside the form")
+
+def crearYPoblarTablas():
+    ###################################################################
+    # CREAR TABLAS
+    ###################################################################
+    sqlTabla1 = """CREATE TABLE personas (
+        cedula VARCHAR(20) PRIMARY KEY,
+        nombres VARCHAR(100) NOT NULL,
+        apellidos VARCHAR(100) NOT NULL,
+        cargo VARCHAR(100) NOT NULL,
+        tipoNombramiento VARCHAR(100) NOT NULL,
+        nivel2 VARCHAR(200) NOT NULL,
+        nivel3 VARCHAR(200) NOT NULL,
+        nivel4 VARCHAR(200) NOT NULL,
+        proceso VARCHAR(300) NOT NULL,
+        subproceso VARCHAR(300) NOT NULL
+        );"""
+    sqlTabla2 = """CREATE TABLE fichas (
+        cedula VARCHAR(20) PRIMARY KEY,
+        ficha VARCHAR(12) NOT NULL,
+        fechaComunicacion DATE NOT NULL,
+        motivoCambio VARCHAR(30) NOT NULL,
+        observaciones VARCHAR(2000) NOT NULL
+        );"""
+    cursor.execute("DROP TABLE IF EXISTS personas;")
+    cursor.execute("DROP TABLE IF EXISTS fichas;")
+    cursor.execute(sqlTabla1)
+    cursor.execute(sqlTabla2)
+    
+    ###################################################################
+    # INSERTAR DATOS DE PERSONAS EN TABLA
+    ###################################################################
+    doc_id = '1dyHiJaR3UySmG_7gQtamrDVfAqYFR_xW'
+    sheet_id = '1506068283'
+    sheet_url = f'https://docs.google.com/spreadsheets/d/{doc_id}/export?format=csv&gid={sheet_id}'
+    personas = pd.read_csv(sheet_url)
+    st.dataframe(personas.head())
+    
+    for k, row in personas.iterrows():
+        cursor.execute(
+            """INSERT INTO personas (cedula, nombres, apellidos, cargo, tipoNombramiento, nivel2, nivel3, nivel4, proceso, subproceso) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (row["Identificación"], row["Nombres"], row["Apellidos"], row["Cargo"], row["Tipo Nombramiento"], row["Dependencia Nivel 2"], row["Dependencia Nivel 3"], row["Dependencia Nivel 4"], row["Proceso"], row["Subproceso"])
+        )
+    
+    st.write("ya insertó!!!")
+    
+    sql = """SELECT * FROM personas;"""
+    cursor.execute(sql)
+    rows = cursor.fetchall()
+    col_names = [desc[0] for desc in cursor.description]
+    df = pd.DataFrame(rows, columns=col_names)
+    st.dataframe(df.head())
+
