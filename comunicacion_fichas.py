@@ -46,6 +46,32 @@ st.dataframe(df)
 
 
 
+sqlTabla1 = """CREATE TABLE personas (
+    cedula VARCHAR(20) PRIMARY KEY,
+    nombres VARCHAR(100) NOT NULL,
+    apellidos VARCHAR(100) NOT NULL,
+    cargo VARCHAR(100) NOT NULL,
+    tipoNombramiento VARCHAR(100) NOT NULL,
+    nivel2 VARCHAR(200) NOT NULL,
+    nivel3 VARCHAR(200) NOT NULL,
+    nivel4 VARCHAR(200) NOT NULL,
+    proceso VARCHAR(300) NOT NULL,
+    subproceso VARCHAR(300) NOT NULL
+    );"""
+sqlTabla2 = """CREATE TABLE fichas (
+    cedula VARCHAR(20) PRIMARY KEY,
+    ficha VARCHAR(12) NOT NULL,
+    fechaComunicacion DATE NOT NULL,
+    motivoCambio VARCHAR(30) NOT NULL,
+    observaciones VARCHAR(2000) NOT NULL
+    );"""
+cursor.execute(sqlTabla1)
+cursor.execute(sqlTabla2)
+
+
+
+
+
 cursor.close()
 conn.close()
 
