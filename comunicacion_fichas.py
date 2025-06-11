@@ -13,11 +13,15 @@ conn = st.connection("postgresql", type="sql")
 df = conn.query("SELECT version();", ttl="10m")
 st.dataframe(df)
 
-conn.query("CREATE TABLE employees (id SERIAL PRIMARY KEY, name VARCHAR(100) NOT NULL, age INT, department VARCHAR(50));", ttl="10m")
-sql = """INSERT INTO employees (name, age, department) VALUES
-('Alice Johnson', 30, 'Engineering'),
-('Bob Smith', 25, 'Marketing'),
-('Charlie Brown', 35, 'Sales');"""
+sql = """SELECT
+    table_schema || '.' || table_name
+FROM
+    information_schema.tables
+WHERE
+    table_type = 'BASE TABLE'
+AND
+    table_schema NOT IN ('pg_catalog', 'information_schema');
+"""
 df = conn.query(sql, ttl="10m")
 st.dataframe(df)
 
