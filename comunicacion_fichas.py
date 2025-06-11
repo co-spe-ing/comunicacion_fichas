@@ -4,20 +4,32 @@ import openpyxl
 from streamlit_gsheets import GSheetsConnection
 from io import BytesIO
 import requests
+import psycopg2
+
 
 
 st.write("hola 11 de junio ...")
 
 
-conn = st.connection("postgresql", type="sql")
-df = conn.query("SELECT version();", ttl="10m")
-st.dataframe(df)
+# Connect to the database
+conn = psycopg2.connect(
+    dbname = st.secrets.connections.postgresql.database,
+    user = st.secrets.connections.postgresql.username,
+    password = st.secrets.connections.postgresql.password,
+    host = st.secrets.connections.postgresql.host,
+    port = st.secrets.connections.postgresql.port
+)
 
-sql = """SELECT * FROM pg_catalog.pg_tables;"""
-df = conn.query(sql, ttl="10m")
-st.dataframe(df.head())
+cur = conn.cursor()
+cur.execute("SELECT version();")
+st.write(cur.fetchone())
+cur.close()
+conn.close()
 
-st.write(st.secrets.connections.postgresql.username)
+
+#conn = st.connection("postgresql", type="sql")
+#df = conn.query("SELECT version();", ttl="10m")
+#st.dataframe(df)
 
 #sql = """CREATE TABLE employees (
 #    id SERIAL PRIMARY KEY,
