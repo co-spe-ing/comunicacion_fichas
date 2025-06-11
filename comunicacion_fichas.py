@@ -73,6 +73,8 @@ sqlTabla2 = """CREATE TABLE fichas (
     motivoCambio VARCHAR(30) NOT NULL,
     observaciones VARCHAR(2000) NOT NULL
     );"""
+cursor.execute("DROP TABLE personas;")
+cursor.execute("DROP TABLE fichas;")
 cursor.execute(sqlTabla1)
 cursor.execute(sqlTabla2)
 
@@ -92,7 +94,7 @@ for _, row in personas.iterrows():
         (row["Identificación"], row["Nombres"], row["Apellidos"], row["Cargo"], row["Tipo Nombramiento"], row["Dependencia Nivel 2"], row["Dependencia Nivel 3"], row["Dependencia Nivel 4"], row["Proceso"], row["Subproceso"])
     )
 
-st.write("ya insertó!!!)
+st.write("ya insertó!!!")
 
 sql = """SELECT * FROM personas;"""
 cursor.execute(sql)
