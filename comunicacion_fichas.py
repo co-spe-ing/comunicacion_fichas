@@ -9,6 +9,9 @@ import psycopg2
 
 st.write("hola 11 de junio ...")
 
+###################################################################
+# ABRIR CONEXIÓN A BD
+###################################################################
 conn = psycopg2.connect(
     dbname = st.secrets.connections.postgresql.database,
     user = st.secrets.connections.postgresql.username,
@@ -18,6 +21,9 @@ conn = psycopg2.connect(
 )
 cursor = conn.cursor()
 
+###################################################################
+# pruebas
+###################################################################
 cursor.execute("SELECT version();")
 st.write(cursor.fetchone())
 
@@ -44,7 +50,9 @@ col_names = [desc[0] for desc in cursor.description]
 df = pd.DataFrame(rows, columns=col_names)
 st.dataframe(df)
 
-
+###################################################################
+# CREAR TABLAS
+###################################################################
 
 sqlTabla1 = """CREATE TABLE personas (
     cedula VARCHAR(20) PRIMARY KEY,
@@ -68,10 +76,21 @@ sqlTabla2 = """CREATE TABLE fichas (
 cursor.execute(sqlTabla1)
 cursor.execute(sqlTabla2)
 
+###################################################################
+# INSERTAR DATOS DE PERSONAS EN TABLA
+###################################################################
+doc_id = '1dyHiJaR3UySmG_7gQtamrDVfAqYFR_xW'
+sheet_id = '1506068283'
+sheet_url = f'https://docs.google.com/spreadsheets/d/{doc_id}/export?format=csv&gid={sheet_id}'
+df = pd.read_csv(sheet_url)
+st.dataframe(df.head())
 
 
 
 
+###################################################################
+# CERRAR CONEXIÓN A BD
+###################################################################
 cursor.close()
 conn.close()
 
