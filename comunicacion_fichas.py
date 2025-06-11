@@ -16,10 +16,10 @@ conn = psycopg2.connect(
     host = st.secrets.connections.postgresql.host,
     port = st.secrets.connections.postgresql.port
 )
-cur = conn.cursor()
+cursor = conn.cursor()
 
-cur.execute("SELECT version();")
-st.write(cur.fetchone())
+cursor.execute("SELECT version();")
+st.write(cursor.fetchone())
 
 sql = """CREATE TABLE employees (
     id SERIAL PRIMARY KEY,
@@ -28,18 +28,22 @@ sql = """CREATE TABLE employees (
     department VARCHAR(50)
 );
 """
-cur.execute(sql)
+cursor.execute(sql)
 
 sql = """INSERT INTO employees (name, age, department) VALUES
     ('Alice Johnson', 30, 'Engineering'),
     ('Bob Smith', 25, 'Marketing'),
     ('Charlie Brown', 35, 'Sales');
 """
-cur.execute(sql)
+cursor.execute(sql)
 
 sql = """SELECT * FROM employees;"""
-cur.execute(sql)
-st.write(cur.fetchone())
+cursor.execute(sql)
+rows = cursor.fetchall()
+df = pd.DataFrame(rows)
+
+st.dataframe(df)
+
 
 
 cur.close()
