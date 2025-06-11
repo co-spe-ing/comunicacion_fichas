@@ -87,12 +87,13 @@ sheet_url = f'https://docs.google.com/spreadsheets/d/{doc_id}/export?format=csv&
 personas = pd.read_csv(sheet_url)
 st.dataframe(personas.head())
 
-for _, row in personas.iterrows():
+for k, row in personas.iterrows():
     cursor.execute(
         """INSERT INTO personas (cedula, nombres, apellidos, cargo, tipoNombramiento, nivel2, nivel3, nivel4, proceso, subproceso) 
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
         (row["Identificación"], row["Nombres"], row["Apellidos"], row["Cargo"], row["Tipo Nombramiento"], row["Dependencia Nivel 2"], row["Dependencia Nivel 3"], row["Dependencia Nivel 4"], row["Proceso"], row["Subproceso"])
     )
+    print(k)
 
 st.write("ya insertó!!!")
 
