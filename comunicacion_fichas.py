@@ -46,7 +46,7 @@ st.dataframe(df)
 
 
 
-cur.close()
+cursor.close()
 conn.close()
 
 
