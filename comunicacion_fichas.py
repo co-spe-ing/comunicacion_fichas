@@ -15,7 +15,26 @@ st.dataframe(df)
 
 sql = """SELECT * FROM pg_catalog.pg_tables;"""
 df = conn.query(sql, ttl="10m")
+st.dataframe(df.head())
+
+sql = """CREATE TABLE employees (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    age INT,
+    department VARCHAR(50)
+);
+"""
+conn.query(sql, ttl="10m")
+sql = """INSERT INTO employees (name, age, department) VALUES
+('Alice Johnson', 30, 'Engineering'),
+('Bob Smith', 25, 'Marketing'),
+('Charlie Brown', 35, 'Sales');
+"""
+conn.query(sql, ttl="10m")
+sql = """SELECT * FROM employees;"""
+df = conn.query(sql, ttl="10m")
 st.dataframe(df)
+
 
 with st.form("my_form"):
     st.write("Inside the form")
