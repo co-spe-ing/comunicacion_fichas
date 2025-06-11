@@ -17,7 +17,7 @@ sql = """SELECT * FROM pg_catalog.pg_tables;"""
 df = conn.query(sql, ttl="10m")
 st.dataframe(df.head())
 
-st.write(st.secrets["connections.postgresql"]["username"])
+st.write(st.secrets.connections.postgresql.username)
 
 #sql = """CREATE TABLE employees (
 #    id SERIAL PRIMARY KEY,
