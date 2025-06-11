@@ -40,8 +40,8 @@ cursor.execute(sql)
 sql = """SELECT * FROM employees;"""
 cursor.execute(sql)
 rows = cursor.fetchall()
-df = pd.DataFrame(rows)
-
+col_names = [desc[0] for desc in cursor.description]
+df = pd.DataFrame(rows, columns=col_names)
 st.dataframe(df)
 
 
