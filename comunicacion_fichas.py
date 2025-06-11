@@ -6,12 +6,14 @@ from io import BytesIO
 import requests
 
 
-st.write("hola 10 de junio ...")
+st.write("hola 11 de junio ...")
 
-# Initialize connection.
+
 conn = st.connection("postgresql", type="sql")
-# Perform query.
 df = conn.query("SELECT version();", ttl="10m")
+st.dataframe(df)
+
+df = conn.query("CREATE TABLE employees (id SERIAL PRIMARY KEY, name VARCHAR(100) NOT NULL, age INT, department VARCHAR(50));", ttl="10m")
 st.dataframe(df)
 
 
