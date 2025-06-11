@@ -93,7 +93,7 @@ for k, row in personas.iterrows():
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
         (row["Identificación"], row["Nombres"], row["Apellidos"], row["Cargo"], row["Tipo Nombramiento"], row["Dependencia Nivel 2"], row["Dependencia Nivel 3"], row["Dependencia Nivel 4"], row["Proceso"], row["Subproceso"])
     )
-    print(k)
+    st.write(k)
 
 st.write("ya insertó!!!")
 
