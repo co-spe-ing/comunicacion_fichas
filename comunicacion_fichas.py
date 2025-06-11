@@ -73,8 +73,8 @@ sqlTabla2 = """CREATE TABLE fichas (
     motivoCambio VARCHAR(30) NOT NULL,
     observaciones VARCHAR(2000) NOT NULL
     );"""
-cursor.execute("DROP TABLE personas;")
-cursor.execute("DROP TABLE fichas;")
+cursor.execute("DROP TABLE IF EXISTS personas;")
+cursor.execute("DROP TABLE IF EXISTS fichas;")
 cursor.execute(sqlTabla1)
 cursor.execute(sqlTabla2)
 
