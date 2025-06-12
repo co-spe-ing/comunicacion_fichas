@@ -122,15 +122,15 @@ with st.form("formulario_persona"):
         nivel4 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel4"]
         proceso = personasdf.loc[personasdf["cedula"]==optCedula, "proceso"]
         subproceso = personasdf.loc[personasdf["cedula"]==optCedula, "subproceso"]
-        st.write(nombres)
-        st.write(apellidos)
-        st.write(cargo)
-        st.write(tiponombramiento)
-        st.write(nivel2)
-        st.write(nivel3)
-        st.write(nivel4)
-        st.write(proceso)
-        st.write(subproceso)
+        st.write("Nombres", nombres)
+        st.write("Apellidos", apellidos)
+        st.write("Cargo", cargo)
+        st.write("Tipo de nombramiento", tiponombramiento)
+        st.write("Dependencia nivel 2", nivel2)
+        st.write("Dependencia nivel 3", nivel3)
+        st.write("Dependencia nivel 4", nivel4)
+        st.write("Proceso", proceso)
+        st.write("Subproceso", subproceso)
 
     
     slider_val = st.slider("Form slider")
