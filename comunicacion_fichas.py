@@ -102,18 +102,21 @@ cursor.close()
 conn.close()
 
 with st.form("formulario_persona"):
-    optCedula = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...")
-    botonSeleccionPersona = st.button("Buscar cédula")
-    if botonSeleccionPersona:
-        nombres = personasdf.loc[personasdf["cedula"]==optCedula, "nombres"].to_numpy()[0]
-        apellidos = personasdf.loc[personasdf["cedula"]==optCedula, "apellidos"].to_numpy()[0]
-        cargo = personasdf.loc[personasdf["cedula"]==optCedula, "cargo"].to_numpy()[0]
-        tiponombramiento = personasdf.loc[personasdf["cedula"]==optCedula, "tiponombramiento"].to_numpy()[0]
-        nivel2 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel2"].to_numpy()[0]
-        nivel3 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel3"].to_numpy()[0]
-        nivel4 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel4"].to_numpy()[0]
-        proceso = personasdf.loc[personasdf["cedula"]==optCedula, "proceso"].to_numpy()[0]
-        subproceso = personasdf.loc[personasdf["cedula"]==optCedula, "subproceso"].to_numpy()[0]
+
+
+    
+    optCedula = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", 
+                             key="CedulaSeleccionada",on_change=cambioSeleccionCedula)
+    if True:
+        nombres = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nombres"].to_numpy()[0]
+        apellidos = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "apellidos"].to_numpy()[0]
+        cargo = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "cargo"].to_numpy()[0]
+        tiponombramiento = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "tiponombramiento"].to_numpy()[0]
+        nivel2 = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nivel2"].to_numpy()[0]
+        nivel3 = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nivel3"].to_numpy()[0]
+        nivel4 = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nivel4"].to_numpy()[0]
+        proceso = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "proceso"].to_numpy()[0]
+        subproceso = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "subproceso"].to_numpy()[0]
         st.write("**Nombres:**",nombres)
         st.write("**Apellidos:**", apellidos)
         st.write("**Cargo:**", cargo)
@@ -129,8 +132,6 @@ with st.form("formulario_persona"):
         st.selectbox(label="Motivo del cambio de ficha", options=("Reubicación","Cambio de funciones"), index=None, placeholder="Selecciona el motivo...", help="Solo diligenciar si a alguien con ficha se le cambia de nuevo la ficha")
         st.text_input(label="Observaciones", value="TP-AD-3007")
 
-
-    # Every form must have a submit button.
     botonGuardar = st.form_submit_button("Guardar")
     if botonGuardar:
         st.write("SE SUBIÓ EL FORMULARIO")
