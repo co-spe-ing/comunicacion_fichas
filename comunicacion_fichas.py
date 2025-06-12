@@ -103,9 +103,9 @@ conn.close()
 
 with st.form("formulario_persona"):
     optCedula = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", 
-                             key="keyCedulaSeleccionada")
+                             key="keyCedulaSeleccionada", on_change=selectboxCedula)
     st.write(st.session_state['keyCedulaSeleccionada'])
-    def temporal():
+    def selectboxCedula():
         nombres = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nombres"].to_numpy()[0]
         apellidos = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "apellidos"].to_numpy()[0]
         cargo = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "cargo"].to_numpy()[0]
