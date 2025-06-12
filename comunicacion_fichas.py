@@ -30,15 +30,11 @@ def inicializar():
     ###################################################################
     # pruebas
     ###################################################################
-    cursor.execute("SELECT version();")
-    st.write(cursor.fetchone())
-    
     sql = """SELECT * FROM personas;"""
     cursor.execute(sql)
     rows = cursor.fetchall()
     col_names = [desc[0] for desc in cursor.description]
     personasdf = pd.DataFrame(rows, columns=col_names)
-    st.dataframe(personasdf)
 
     ###################################################################
     # CREAR Y POBLAR TABLAS
@@ -103,6 +99,8 @@ def inicializar():
     return personasdf, conn, cursor
     
 personasdf, conn, cursor = inicializar()
+
+st.dataframe(personasdf.head())
 
 cedulaSeleccionada = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", )
 st.write(cedulaSeleccionada)
