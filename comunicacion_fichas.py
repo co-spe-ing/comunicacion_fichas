@@ -30,7 +30,7 @@ conn, cursor = nuevaConexion()
 cursor.execute("SELECT version();")
 st.write(cursor.fetchone())
 
-sql = """SELECT * FROM personas;"""
+sql = """SELECT * FROM employees;"""
 cursor.execute(sql)
 rows = cursor.fetchall()
 col_names = [desc[0] for desc in cursor.description]
@@ -40,7 +40,7 @@ st.dataframe(df)
 ###################################################################
 # CREAR Y POBLAR TABLAS
 ###################################################################
-crearYPoblarTablas = False
+crearYPoblarTablas = True
 if crearYPoblarTablas:
     ###################################################################
     # CREAR TABLAS
