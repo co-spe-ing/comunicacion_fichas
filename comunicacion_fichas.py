@@ -132,10 +132,10 @@ with st.form("formulario_persona"):
         st.write("**Proceso:**", proceso)
         st.write("**Subproceso:**", subproceso)
 
-    st.text_input(label="Ficha", value="TP-AD-3007")
-    st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
-    st.selectbox(label="Motivo del cambio de ficha", options=("Reubicación","Cambio de funciones"))
-    st.text_input(label="Observaciones", value="TP-AD-3007")
+        st.text_input(label="Ficha", value="TP-AD-3007")
+        st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
+        st.selectbox(label="Motivo del cambio de ficha", options=("Reubicación","Cambio de funciones"))
+        st.text_input(label="Observaciones", value="TP-AD-3007")
 
 
     # Every form must have a submit button.
