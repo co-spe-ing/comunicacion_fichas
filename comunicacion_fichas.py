@@ -113,15 +113,15 @@ with st.form("formulario_persona"):
     optCedula = st.selectbox('Cédula', personasdf["cedula"])
     botonSeleccionPersona = st.form_submit_button("Seleccionar persona")
     if botonSeleccionPersona:
-        nombres = personasdf.loc[personasdf["cedula"]==optCedula, "nombres"].astype(str)
-        apellidos = personasdf.loc[personasdf["cedula"]==optCedula, "apellidos"].astype(str)
-        cargo = personasdf.loc[personasdf["cedula"]==optCedula, "cargo"].astype(str)
-        tiponombramiento = personasdf.loc[personasdf["cedula"]==optCedula, "tiponombramiento"].astype(str)
-        nivel2 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel2"].astype(str)
-        nivel3 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel3"].astype(str)
-        nivel4 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel4"].astype(str)
-        proceso = personasdf.loc[personasdf["cedula"]==optCedula, "proceso"].astype(str)
-        subproceso = personasdf.loc[personasdf["cedula"]==optCedula, "subproceso"].astype(str)
+        nombres = personasdf.loc[personasdf["cedula"]==optCedula, "nombres"].to_numpy()[0]
+        apellidos = personasdf.loc[personasdf["cedula"]==optCedula, "apellidos"].to_numpy()[0]
+        cargo = personasdf.loc[personasdf["cedula"]==optCedula, "cargo"].to_numpy()[0]
+        tiponombramiento = personasdf.loc[personasdf["cedula"]==optCedula, "tiponombramiento"].to_numpy()[0]
+        nivel2 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel2"].to_numpy()[0]
+        nivel3 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel3"].to_numpy()[0]
+        nivel4 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel4"].to_numpy()[0]
+        proceso = personasdf.loc[personasdf["cedula"]==optCedula, "proceso"].to_numpy()[0]
+        subproceso = personasdf.loc[personasdf["cedula"]==optCedula, "subproceso"].to_numpy()[0]
         st.write("Nombres:", nombres)
         st.write("Apellidos:", apellidos)
         st.write("Cargo:", cargo)
