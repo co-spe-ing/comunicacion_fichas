@@ -54,7 +54,7 @@ col_names = [desc[0] for desc in cursor.description]
 df = pd.DataFrame(rows, columns=col_names)
 st.dataframe(df.head())
 
-def crearYPoblarTablas():
+def crearYPoblarTablas(conn, cursor):
     ###################################################################
     # CREAR TABLAS
     ###################################################################
