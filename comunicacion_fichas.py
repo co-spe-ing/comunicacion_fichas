@@ -36,6 +36,7 @@ rows = cursor.fetchall()
 col_names = [desc[0] for desc in cursor.description]
 df = pd.DataFrame(rows, columns=col_names)
 st.dataframe(df)
+personasdf = df
 
 ###################################################################
 # CREAR Y POBLAR TABLAS
@@ -58,11 +59,13 @@ if crearYPoblarTablas:
         subproceso VARCHAR(300) NOT NULL
         );"""
     sqlTabla2 = """CREATE TABLE fichas (
-        cedula VARCHAR(20) PRIMARY KEY,
+        id SERIAL PRIMARY KEY,
+        cedula VARCHAR(20) NOT NULL,
         ficha VARCHAR(12) NOT NULL,
         fechaComunicacion DATE NOT NULL,
         motivoCambio VARCHAR(30) NOT NULL,
-        observaciones VARCHAR(2000) NOT NULL
+        observaciones VARCHAR(2000) NOT NULL,
+        fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );"""
     cursor.execute("DROP TABLE IF EXISTS personas;")
     cursor.execute("DROP TABLE IF EXISTS fichas;")
@@ -106,10 +109,28 @@ if crearYPoblarTablas:
 cursor.close()
 conn.close()
 
+with st.form("formulario_persona"):
+    optCedula = st.selectbox('Cédula', personasdf["cedula"])
+    nombres = personasdf.loc[personasdf["cedula"]==optCedula, "nombres"]
+    apellidos = personasdf.loc[personasdf["cedula"]==optCedula, "apellidos"]
+    cargo = personasdf.loc[personasdf["cedula"]==optCedula, "cargo"]
+    tiponombramiento = personasdf.loc[personasdf["cedula"]==optCedula, "tiponombramiento"]
+    nivel2 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel2"]
+    nivel3 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel3"]
+    nivel4 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel4"]
+    proceso = personasdf.loc[personasdf["cedula"]==optCedula, "proceso"]
+    subproceso = personasdf.loc[personasdf["cedula"]==optCedula, "subproceso"]
+    st.write(nombres)
+    st.write(apellidos)
+    st.write(cargo)
+    st.write(tiponombramiento)
+    st.write(nivel2)
+    st.write(nivel3)
+    st.write(nivel4)
+    st.write(proceso)
+    st.write(subproceso)
 
-
-with st.form("my_form"):
-    st.write("Inside the form")
+    
     slider_val = st.slider("Form slider")
     checkbox_val = st.checkbox("Form checkbox")
 
