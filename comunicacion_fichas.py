@@ -113,15 +113,15 @@ with st.form("formulario_persona"):
     optCedula = st.selectbox('Cédula', personasdf["cedula"])
     botonSeleccionPersona = st.form_submit_button("Seleccionar persona")
     if botonSeleccionPersona:
-        nombres = personasdf.loc[personasdf["cedula"]==optCedula, "nombres"]
-        apellidos = personasdf.loc[personasdf["cedula"]==optCedula, "apellidos"]
-        cargo = personasdf.loc[personasdf["cedula"]==optCedula, "cargo"]
-        tiponombramiento = personasdf.loc[personasdf["cedula"]==optCedula, "tiponombramiento"]
-        nivel2 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel2"]
-        nivel3 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel3"]
-        nivel4 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel4"]
-        proceso = personasdf.loc[personasdf["cedula"]==optCedula, "proceso"]
-        subproceso = personasdf.loc[personasdf["cedula"]==optCedula, "subproceso"]
+        nombres = str(personasdf.loc[personasdf["cedula"]==optCedula, "nombres"])
+        apellidos = str(personasdf.loc[personasdf["cedula"]==optCedula, "apellidos"])
+        cargo = str(personasdf.loc[personasdf["cedula"]==optCedula, "cargo"])
+        tiponombramiento = str(personasdf.loc[personasdf["cedula"]==optCedula, "tiponombramiento"])
+        nivel2 = str(personasdf.loc[personasdf["cedula"]==optCedula, "nivel2"])
+        nivel3 = str(personasdf.loc[personasdf["cedula"]==optCedula, "nivel3"])
+        nivel4 = str(personasdf.loc[personasdf["cedula"]==optCedula, "nivel4"])
+        proceso = str(personasdf.loc[personasdf["cedula"]==optCedula, "proceso"])
+        subproceso = str(personasdf.loc[personasdf["cedula"]==optCedula, "subproceso"])
         st.write("Nombres", nombres)
         st.write("Apellidos", apellidos)
         st.write("Cargo", cargo)
