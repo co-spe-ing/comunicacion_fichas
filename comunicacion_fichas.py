@@ -132,7 +132,9 @@ with st.form("formulario_persona"):
         st.write("**Proceso:**", proceso)
         st.write("**Subproceso:**", subproceso)
 
-    
+
+    st.text_input(label="Ficha", "TP-AD-3007", disabled=True)
+    st.text_input(label="Observaciones", "TP-AD-3007")
     slider_val = st.slider("Form slider")
     checkbox_val = st.checkbox("Form checkbox")
 
