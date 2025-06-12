@@ -30,31 +30,18 @@ conn, cursor = nuevaConexion()
 cursor.execute("SELECT version();")
 st.write(cursor.fetchone())
 
-sql = """CREATE TABLE employees (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    age INT,
-    department VARCHAR(50)
-);
-"""
-cursor.execute("DROP TABLE IF EXISTS employees;")
-cursor.execute(sql)
-
-sql = """INSERT INTO employees (name, age, department) VALUES
-    ('Alice Johnson', 30, 'Engineering'),
-    ('Bob Smith', 25, 'Marketing'),
-    ('Charlie Brown', 35, 'Sales');
-"""
-cursor.execute(sql)
-
 sql = """SELECT * FROM employees;"""
 cursor.execute(sql)
 rows = cursor.fetchall()
 col_names = [desc[0] for desc in cursor.description]
 df = pd.DataFrame(rows, columns=col_names)
-st.dataframe(df.head())
+st.dataframe(df)
 
-def crearYPoblarTablas(conn, cursor):
+###################################################################
+# CREAR Y POBLAR TABLAS
+###################################################################
+crearYPoblarTablas = False
+if crearYPoblarTablas:
     ###################################################################
     # CREAR TABLAS
     ###################################################################
@@ -111,8 +98,6 @@ def crearYPoblarTablas(conn, cursor):
     col_names = [desc[0] for desc in cursor.description]
     df = pd.DataFrame(rows, columns=col_names)
     st.dataframe(df.head())
-
-crearYPoblarTablas(conn, cursor)
 
 ###################################################################
 # CERRAR CONEXIÓN A BD
