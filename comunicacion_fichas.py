@@ -134,7 +134,7 @@ with st.form("formulario_persona"):
 
 
     st.text_input(label="Ficha", value="TP-AD-3007", disabled=True)
-    st.text_input(label="Observaciones", "TP-AD-3007")
+    st.text_input(label="Observaciones", value="TP-AD-3007")
     slider_val = st.slider("Form slider")
     checkbox_val = st.checkbox("Form checkbox")
 
