@@ -95,14 +95,6 @@ if crearYPoblarTablas:
             conn, cursor = nuevaConexion()
             
     st.write("¡¡¡ya insertó en la bd!!!")
-    
-    sql = """SELECT * FROM personas;"""
-    cursor.execute(sql)
-    rows = cursor.fetchall()
-    col_names = [desc[0] for desc in cursor.description]
-    df = pd.DataFrame(rows, columns=col_names)
-    st.dataframe(df.head())
-
 ###################################################################
 # CERRAR CONEXIÓN A BD
 ###################################################################
@@ -111,7 +103,7 @@ conn.close()
 
 with st.form("formulario_persona"):
     optCedula = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...")
-    botonSeleccionPersona = st.form_submit_button("Buscar cédula")
+    botonSeleccionPersona = st.button("Buscar cédula")
     if botonSeleccionPersona:
         nombres = personasdf.loc[personasdf["cedula"]==optCedula, "nombres"].to_numpy()[0]
         apellidos = personasdf.loc[personasdf["cedula"]==optCedula, "apellidos"].to_numpy()[0]
