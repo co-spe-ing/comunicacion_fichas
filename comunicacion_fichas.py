@@ -30,7 +30,7 @@ conn, cursor = nuevaConexion()
 cursor.execute("SELECT version();")
 st.write(cursor.fetchone())
 
-sql = """SELECT * FROM employees;"""
+sql = """SELECT * FROM personas;"""
 cursor.execute(sql)
 rows = cursor.fetchall()
 col_names = [desc[0] for desc in cursor.description]
