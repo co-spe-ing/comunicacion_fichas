@@ -6,21 +6,24 @@ from io import BytesIO
 import requests
 import psycopg2
 
-
 st.write("hola 11 de junio ...")
 
 ###################################################################
 # ABRIR CONEXIÓN A BD
 ###################################################################
-conn = psycopg2.connect(
-    dbname = st.secrets.connections.postgresql.database,
-    user = st.secrets.connections.postgresql.username,
-    password = st.secrets.connections.postgresql.password,
-    host = st.secrets.connections.postgresql.host,
-    port = st.secrets.connections.postgresql.port
-)
-cursor = conn.cursor()
-
+def nuevaConexion():
+    conn = psycopg2.connect(
+        dbname = st.secrets.connections.postgresql.database,
+        user = st.secrets.connections.postgresql.username,
+        password = st.secrets.connections.postgresql.password,
+        host = st.secrets.connections.postgresql.host,
+        port = st.secrets.connections.postgresql.port
+    )
+    conn.autocommit = True
+    cursor = conn.cursor()
+    return conn, cursor
+    
+conn, cursor = nuevaConexion()
 ###################################################################
 # pruebas
 ###################################################################
@@ -49,27 +52,6 @@ rows = cursor.fetchall()
 col_names = [desc[0] for desc in cursor.description]
 df = pd.DataFrame(rows, columns=col_names)
 st.dataframe(df.head())
-
-
-
-###################################################################
-# CERRAR CONEXIÓN A BD
-###################################################################
-cursor.close()
-conn.close()
-
-
-
-with st.form("my_form"):
-    st.write("Inside the form")
-    slider_val = st.slider("Form slider")
-    checkbox_val = st.checkbox("Form checkbox")
-
-    # Every form must have a submit button.
-    submitted = st.form_submit_button("Submit")
-    if submitted:
-        st.write("slider", slider_val, "checkbox", checkbox_val)
-st.write("Outside the form")
 
 def crearYPoblarTablas():
     ###################################################################
@@ -114,7 +96,12 @@ def crearYPoblarTablas():
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
             (row["Identificación"], row["Nombres"], row["Apellidos"], row["Cargo"], row["Tipo Nombramiento"], row["Dependencia Nivel 2"], row["Dependencia Nivel 3"], row["Dependencia Nivel 4"], row["Proceso"], row["Subproceso"])
         )
-    
+        if k % 500:
+            print(k)
+            cursor.close()
+            conn.close()
+            conn, cursor = nuevaConexion()
+            
     st.write("ya insertó!!!")
     
     sql = """SELECT * FROM personas;"""
@@ -123,4 +110,26 @@ def crearYPoblarTablas():
     col_names = [desc[0] for desc in cursor.description]
     df = pd.DataFrame(rows, columns=col_names)
     st.dataframe(df.head())
+
+crearYPoblarTablas()
+
+###################################################################
+# CERRAR CONEXIÓN A BD
+###################################################################
+cursor.close()
+conn.close()
+
+
+
+with st.form("my_form"):
+    st.write("Inside the form")
+    slider_val = st.slider("Form slider")
+    checkbox_val = st.checkbox("Form checkbox")
+
+    # Every form must have a submit button.
+    submitted = st.form_submit_button("Submit")
+    if submitted:
+        st.write("slider", slider_val, "checkbox", checkbox_val)
+st.write("Outside the form")
+
 
