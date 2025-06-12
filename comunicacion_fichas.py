@@ -37,6 +37,7 @@ sql = """CREATE TABLE employees (
     department VARCHAR(50)
 );
 """
+cursor.execute("DROP TABLE IF EXISTS employees;")
 cursor.execute(sql)
 
 sql = """INSERT INTO employees (name, age, department) VALUES
@@ -46,7 +47,7 @@ sql = """INSERT INTO employees (name, age, department) VALUES
 """
 cursor.execute(sql)
 
-sql = """SELECT * FROM personas;"""
+sql = """SELECT * FROM employees;"""
 cursor.execute(sql)
 rows = cursor.fetchall()
 col_names = [desc[0] for desc in cursor.description]
