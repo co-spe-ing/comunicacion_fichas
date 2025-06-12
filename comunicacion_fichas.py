@@ -92,13 +92,13 @@ def crearYPoblarTablas(conn, cursor):
     st.dataframe(personas.head())
     
     for k, row in personas.iterrows():
+        print(k)
         cursor.execute(
             """INSERT INTO personas (cedula, nombres, apellidos, cargo, tipoNombramiento, nivel2, nivel3, nivel4, proceso, subproceso) 
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
             (row["Identificación"], row["Nombres"], row["Apellidos"], row["Cargo"], row["Tipo Nombramiento"], row["Dependencia Nivel 2"], row["Dependencia Nivel 3"], row["Dependencia Nivel 4"], row["Proceso"], row["Subproceso"])
         )
-        if k % 500:
-            print(k)
+        if k % 100:
             cursor.close()
             conn.close()
             conn, cursor = nuevaConexion()
