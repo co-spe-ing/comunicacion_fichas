@@ -140,9 +140,8 @@ with st.form("formulario_persona"):
 
     # Every form must have a submit button.
     botonGuardar = st.form_submit_button("Guardar")
-    if submitted:
-        
-        st.write("slider", slider_val, "checkbox", checkbox_val)
+    if botonGuardar:
+        st.write("SE SUBIÓ EL FORMULARIO")
 st.write("Outside the form")
 
 
