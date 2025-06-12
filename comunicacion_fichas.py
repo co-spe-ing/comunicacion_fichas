@@ -105,30 +105,30 @@ def inicializar():
 personasdf, conn, cursor = inicializar()
 
 cedulaSeleccionada = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", )
-
-nombres = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nombres"].to_numpy()[0]
-apellidos = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "apellidos"].to_numpy()[0]
-cargo = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "cargo"].to_numpy()[0]
-tiponombramiento = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "tiponombramiento"].to_numpy()[0]
-nivel2 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel2"].to_numpy()[0]
-nivel3 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel3"].to_numpy()[0]
-nivel4 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel4"].to_numpy()[0]
-proceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "proceso"].to_numpy()[0]
-subproceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "subproceso"].to_numpy()[0]
-st.write("**Nombres:**",nombres)
-st.write("**Apellidos:**", apellidos)
-st.write("**Cargo:**", cargo)
-st.write("**Tipo de nombramiento:**", tiponombramiento)
-st.write("**Dependencia nivel 2:**", nivel2)
-st.write("**Dependencia nivel 3:**", nivel3)
-st.write("**Dependencia nivel 4:**", nivel4)
-st.write("**Proceso:**", proceso)
-st.write("**Subproceso:**", subproceso)
-
-st.text_input(label="Ficha", value="TP-AD-3007")
-st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
-st.selectbox(label="Motivo del cambio de ficha", options=("Reubicación","Cambio de funciones"), index=None, placeholder="Selecciona el motivo...", help="Solo diligenciar si a alguien con ficha se le cambia de nuevo la ficha")
-st.text_input(label="Observaciones", value="TP-AD-3007")
+if (cedulaSeleccionada != None):
+    nombres = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nombres"].to_numpy()[0]
+    apellidos = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "apellidos"].to_numpy()[0]
+    cargo = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "cargo"].to_numpy()[0]
+    tiponombramiento = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "tiponombramiento"].to_numpy()[0]
+    nivel2 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel2"].to_numpy()[0]
+    nivel3 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel3"].to_numpy()[0]
+    nivel4 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel4"].to_numpy()[0]
+    proceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "proceso"].to_numpy()[0]
+    subproceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "subproceso"].to_numpy()[0]
+    st.write("**Nombres:**",nombres)
+    st.write("**Apellidos:**", apellidos)
+    st.write("**Cargo:**", cargo)
+    st.write("**Tipo de nombramiento:**", tiponombramiento)
+    st.write("**Dependencia nivel 2:**", nivel2)
+    st.write("**Dependencia nivel 3:**", nivel3)
+    st.write("**Dependencia nivel 4:**", nivel4)
+    st.write("**Proceso:**", proceso)
+    st.write("**Subproceso:**", subproceso)
+    
+    st.text_input(label="Ficha", value="TP-AD-3007")
+    st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
+    st.selectbox(label="Motivo del cambio de ficha", options=("Reubicación","Cambio de funciones"), index=None, placeholder="Selecciona el motivo...", help="Solo diligenciar si a alguien con ficha se le cambia de nuevo la ficha")
+    st.text_input(label="Observaciones", value="TP-AD-3007")
     
 
 
