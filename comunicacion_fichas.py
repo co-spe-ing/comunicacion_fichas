@@ -103,15 +103,16 @@ conn.close()
 
 
 def selectboxCedula():
-    nombres = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nombres"].to_numpy()[0]
-    apellidos = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "apellidos"].to_numpy()[0]
-    cargo = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "cargo"].to_numpy()[0]
-    tiponombramiento = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "tiponombramiento"].to_numpy()[0]
-    nivel2 = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nivel2"].to_numpy()[0]
-    nivel3 = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nivel3"].to_numpy()[0]
-    nivel4 = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nivel4"].to_numpy()[0]
-    proceso = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "proceso"].to_numpy()[0]
-    subproceso = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "subproceso"].to_numpy()[0]
+    cedulaSeleccionada = st.session_state['keyCedulaSeleccionada']
+    nombres = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nombres"].to_numpy()[0]
+    apellidos = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "apellidos"].to_numpy()[0]
+    cargo = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "cargo"].to_numpy()[0]
+    tiponombramiento = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "tiponombramiento"].to_numpy()[0]
+    nivel2 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel2"].to_numpy()[0]
+    nivel3 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel3"].to_numpy()[0]
+    nivel4 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel4"].to_numpy()[0]
+    proceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "proceso"].to_numpy()[0]
+    subproceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "subproceso"].to_numpy()[0]
     st.write("**Nombres:**",nombres)
     st.write("**Apellidos:**", apellidos)
     st.write("**Cargo:**", cargo)
