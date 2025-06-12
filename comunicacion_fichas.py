@@ -106,7 +106,7 @@ with st.form("formulario_persona"):
 
     
     optCedula = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", 
-                             key="CedulaSeleccionada",on_change=cambioSeleccionCedula)
+                             key="CedulaSeleccionada")
     if True:
         nombres = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nombres"].to_numpy()[0]
         apellidos = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "apellidos"].to_numpy()[0]
