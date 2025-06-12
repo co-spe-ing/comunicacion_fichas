@@ -112,7 +112,7 @@ def crearYPoblarTablas(conn, cursor):
     df = pd.DataFrame(rows, columns=col_names)
     st.dataframe(df.head())
 
-crearYPoblarTablas()
+crearYPoblarTablas(conn, cursor)
 
 ###################################################################
 # CERRAR CONEXIÓN A BD
