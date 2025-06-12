@@ -102,9 +102,6 @@ cursor.close()
 conn.close()
 
 with st.form("formulario_persona"):
-    optCedula = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", 
-                             key="keyCedulaSeleccionada", on_change=selectboxCedula)
-    st.write(st.session_state['keyCedulaSeleccionada'])
     def selectboxCedula():
         nombres = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nombres"].to_numpy()[0]
         apellidos = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "apellidos"].to_numpy()[0]
@@ -129,7 +126,11 @@ with st.form("formulario_persona"):
         st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
         st.selectbox(label="Motivo del cambio de ficha", options=("Reubicación","Cambio de funciones"), index=None, placeholder="Selecciona el motivo...", help="Solo diligenciar si a alguien con ficha se le cambia de nuevo la ficha")
         st.text_input(label="Observaciones", value="TP-AD-3007")
-
+    
+    optCedula = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", 
+                             key="keyCedulaSeleccionada", on_change=selectboxCedula)
+    st.write(st.session_state['keyCedulaSeleccionada'])
+    
     botonGuardar = st.form_submit_button("Guardar")
     if botonGuardar:
         st.write("SE SUBIÓ EL FORMULARIO")
