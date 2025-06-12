@@ -8,7 +8,7 @@ import psycopg2
 
 st.write("hola 11 de junio ...")
 
-@st.cache_data
+@st.cache_resource
 def inicializar():
     ###################################################################
     # ABRIR CONEXIÓN A BD
