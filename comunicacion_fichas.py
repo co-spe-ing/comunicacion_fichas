@@ -110,7 +110,7 @@ cursor.close()
 conn.close()
 
 with st.form("formulario_persona"):
-    optCedula = st.selectbox('Cédula', personasdf["cedula"])
+    optCedula = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...")
     botonSeleccionPersona = st.form_submit_button("Buscar cédula")
     if botonSeleccionPersona:
         nombres = personasdf.loc[personasdf["cedula"]==optCedula, "nombres"].to_numpy()[0]
@@ -134,13 +134,14 @@ with st.form("formulario_persona"):
 
         st.text_input(label="Ficha", value="TP-AD-3007")
         st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
-        st.selectbox(label="Motivo del cambio de ficha", options=("Reubicación","Cambio de funciones"))
+        st.selectbox(label="Motivo del cambio de ficha", options=("Reubicación","Cambio de funciones"), index=None, placeholder="Selecciona una cédula...", help="Solo diligenciar si a alguien con ficha se le cambia de nuevo la ficha")
         st.text_input(label="Observaciones", value="TP-AD-3007")
 
 
     # Every form must have a submit button.
-    submitted = st.form_submit_button("Submit")
+    botonGuardar = st.form_submit_button("Guardar")
     if submitted:
+        
         st.write("slider", slider_val, "checkbox", checkbox_val)
 st.write("Outside the form")
 
