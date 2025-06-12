@@ -101,39 +101,34 @@ if crearYPoblarTablas:
 cursor.close()
 conn.close()
 
-with st.form("formulario_persona"):
-    def selectboxCedula():
-        nombres = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nombres"].to_numpy()[0]
-        apellidos = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "apellidos"].to_numpy()[0]
-        cargo = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "cargo"].to_numpy()[0]
-        tiponombramiento = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "tiponombramiento"].to_numpy()[0]
-        nivel2 = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nivel2"].to_numpy()[0]
-        nivel3 = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nivel3"].to_numpy()[0]
-        nivel4 = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nivel4"].to_numpy()[0]
-        proceso = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "proceso"].to_numpy()[0]
-        subproceso = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "subproceso"].to_numpy()[0]
-        st.write("**Nombres:**",nombres)
-        st.write("**Apellidos:**", apellidos)
-        st.write("**Cargo:**", cargo)
-        st.write("**Tipo de nombramiento:**", tiponombramiento)
-        st.write("**Dependencia nivel 2:**", nivel2)
-        st.write("**Dependencia nivel 3:**", nivel3)
-        st.write("**Dependencia nivel 4:**", nivel4)
-        st.write("**Proceso:**", proceso)
-        st.write("**Subproceso:**", subproceso)
 
-        st.text_input(label="Ficha", value="TP-AD-3007")
-        st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
-        st.selectbox(label="Motivo del cambio de ficha", options=("Reubicación","Cambio de funciones"), index=None, placeholder="Selecciona el motivo...", help="Solo diligenciar si a alguien con ficha se le cambia de nuevo la ficha")
-        st.text_input(label="Observaciones", value="TP-AD-3007")
+def selectboxCedula():
+    nombres = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nombres"].to_numpy()[0]
+    apellidos = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "apellidos"].to_numpy()[0]
+    cargo = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "cargo"].to_numpy()[0]
+    tiponombramiento = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "tiponombramiento"].to_numpy()[0]
+    nivel2 = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nivel2"].to_numpy()[0]
+    nivel3 = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nivel3"].to_numpy()[0]
+    nivel4 = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "nivel4"].to_numpy()[0]
+    proceso = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "proceso"].to_numpy()[0]
+    subproceso = personasdf.loc[personasdf["cedula"]==st.session_state['CedulaSeleccionada'], "subproceso"].to_numpy()[0]
+    st.write("**Nombres:**",nombres)
+    st.write("**Apellidos:**", apellidos)
+    st.write("**Cargo:**", cargo)
+    st.write("**Tipo de nombramiento:**", tiponombramiento)
+    st.write("**Dependencia nivel 2:**", nivel2)
+    st.write("**Dependencia nivel 3:**", nivel3)
+    st.write("**Dependencia nivel 4:**", nivel4)
+    st.write("**Proceso:**", proceso)
+    st.write("**Subproceso:**", subproceso)
+
+    st.text_input(label="Ficha", value="TP-AD-3007")
+    st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
+    st.selectbox(label="Motivo del cambio de ficha", options=("Reubicación","Cambio de funciones"), index=None, placeholder="Selecciona el motivo...", help="Solo diligenciar si a alguien con ficha se le cambia de nuevo la ficha")
+    st.text_input(label="Observaciones", value="TP-AD-3007")
     
-    optCedula = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", 
-                             key="keyCedulaSeleccionada", on_change=selectboxCedula)
-    st.write(st.session_state['keyCedulaSeleccionada'])
-    
-    botonGuardar = st.form_submit_button("Guardar")
-    if botonGuardar:
-        st.write("SE SUBIÓ EL FORMULARIO")
-st.write("Outside the form")
+optCedula = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", 
+    key="keyCedulaSeleccionada", on_change=selectboxCedula)
+
 
 
