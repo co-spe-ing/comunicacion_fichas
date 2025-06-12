@@ -76,7 +76,8 @@ if crearYPoblarTablas:
     sheet_id = '1506068283'
     sheet_url = f'https://docs.google.com/spreadsheets/d/{doc_id}/export?format=csv&gid={sheet_id}'
     personas = pd.read_csv(sheet_url)
-    st.dataframe(personas.head())
+
+    st.write("¡ya leyó el gsheets!")
     
     for k, row in personas.iterrows():
         print(k)
@@ -90,7 +91,7 @@ if crearYPoblarTablas:
             conn.close()
             conn, cursor = nuevaConexion()
             
-    st.write("ya insertó!!!")
+    st.write("¡¡¡ya insertó en la bd!!!")
     
     sql = """SELECT * FROM personas;"""
     cursor.execute(sql)
