@@ -105,6 +105,7 @@ def inicializar():
 personasdf, conn, cursor = inicializar()
 
 cedulaSeleccionada = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", )
+st.write(cedulaSeleccionada)
 if (cedulaSeleccionada != None):
     nombres = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nombres"].to_numpy()[0]
     apellidos = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "apellidos"].to_numpy()[0]
