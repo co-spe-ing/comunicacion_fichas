@@ -111,24 +111,26 @@ conn.close()
 
 with st.form("formulario_persona"):
     optCedula = st.selectbox('Cédula', personasdf["cedula"])
-    nombres = personasdf.loc[personasdf["cedula"]==optCedula, "nombres"]
-    apellidos = personasdf.loc[personasdf["cedula"]==optCedula, "apellidos"]
-    cargo = personasdf.loc[personasdf["cedula"]==optCedula, "cargo"]
-    tiponombramiento = personasdf.loc[personasdf["cedula"]==optCedula, "tiponombramiento"]
-    nivel2 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel2"]
-    nivel3 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel3"]
-    nivel4 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel4"]
-    proceso = personasdf.loc[personasdf["cedula"]==optCedula, "proceso"]
-    subproceso = personasdf.loc[personasdf["cedula"]==optCedula, "subproceso"]
-    st.write(nombres)
-    st.write(apellidos)
-    st.write(cargo)
-    st.write(tiponombramiento)
-    st.write(nivel2)
-    st.write(nivel3)
-    st.write(nivel4)
-    st.write(proceso)
-    st.write(subproceso)
+    botonSeleccionPersona = st.form_submit_button("Seleccionar persona")
+    if botonSeleccionPersona:
+        nombres = personasdf.loc[personasdf["cedula"]==optCedula, "nombres"]
+        apellidos = personasdf.loc[personasdf["cedula"]==optCedula, "apellidos"]
+        cargo = personasdf.loc[personasdf["cedula"]==optCedula, "cargo"]
+        tiponombramiento = personasdf.loc[personasdf["cedula"]==optCedula, "tiponombramiento"]
+        nivel2 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel2"]
+        nivel3 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel3"]
+        nivel4 = personasdf.loc[personasdf["cedula"]==optCedula, "nivel4"]
+        proceso = personasdf.loc[personasdf["cedula"]==optCedula, "proceso"]
+        subproceso = personasdf.loc[personasdf["cedula"]==optCedula, "subproceso"]
+        st.write(nombres)
+        st.write(apellidos)
+        st.write(cargo)
+        st.write(tiponombramiento)
+        st.write(nivel2)
+        st.write(nivel3)
+        st.write(nivel4)
+        st.write(proceso)
+        st.write(subproceso)
 
     
     slider_val = st.slider("Form slider")
