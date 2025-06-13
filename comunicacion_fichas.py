@@ -6,7 +6,7 @@ from io import BytesIO
 import requests
 import psycopg2
 
-st.write("hola 11 de junio ...")
+st.write("hola 13 de junio ...")
 
 @st.cache_resource
 def inicializar():
@@ -28,18 +28,9 @@ def inicializar():
     conn, cursor = nuevaConexion()
 
     ###################################################################
-    # pruebas
-    ###################################################################
-    sql = """SELECT * FROM personas;"""
-    cursor.execute(sql)
-    rows = cursor.fetchall()
-    col_names = [desc[0] for desc in cursor.description]
-    personasdf = pd.DataFrame(rows, columns=col_names)
-
-    ###################################################################
     # CREAR Y POBLAR TABLAS
     ###################################################################
-    crearYPoblarTablas = False
+    crearYPoblarTablas = True
     if crearYPoblarTablas:
         ###################################################################
         # CREAR TABLAS
@@ -56,7 +47,7 @@ def inicializar():
             proceso VARCHAR(300) NOT NULL,
             subproceso VARCHAR(300) NOT NULL
             );"""
-        sqlTabla2 = """CREATE TABLE fichas (
+        sqlTabla2 = """CREATE TABLE fichaxpersona (
             id SERIAL PRIMARY KEY,
             cedula VARCHAR(20) NOT NULL,
             ficha VARCHAR(12) NOT NULL,
@@ -65,42 +56,78 @@ def inicializar():
             observaciones VARCHAR(2000) NOT NULL,
             fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );"""
-        cursor.execute("DROP TABLE IF EXISTS personas;")
+        sqlTabla3 = """CREATE TABLE fichas (
+            cargo VARCHAR(100) NOT NULL,
+            ficha VARCHAR(12) PRIMARY KEY,
+            proceso VARCHAR(300) NOT NULL,
+            subproceso VARCHAR(300) NOT NULL
+            );"""
+        #cursor.execute("DROP TABLE IF EXISTS personas;")
+        cursor.execute("DROP TABLE IF EXISTS fichaxpersona;")
         cursor.execute("DROP TABLE IF EXISTS fichas;")
-        cursor.execute(sqlTabla1)
+        #cursor.execute(sqlTabla1)
         cursor.execute(sqlTabla2)
+        cursor.execute(sqlTabla3)
+
+        ###################################################################
+        # INSERTAR DATOS DE FICHAS EN TABLA
+        ###################################################################
+        sheet_url = "https://raw.githubusercontent.com/co-spe-ing/comunicacion_fichas/refs/heads/main/Fichas.csv"
+        fichas = pd.read_csv(sheet_url)
+
+        with open(sheet_url, 'r') as f:
+            cursor.copy_from(f, 'fichas', sep=';')
+
+
         
         ###################################################################
         # INSERTAR DATOS DE PERSONAS EN TABLA
         ###################################################################
-        doc_id = '1dyHiJaR3UySmG_7gQtamrDVfAqYFR_xW'
-        sheet_id = '1506068283'
-        sheet_url = f'https://docs.google.com/spreadsheets/d/{doc_id}/export?format=csv&gid={sheet_id}'
-        personas = pd.read_csv(sheet_url)
+        #doc_id = '1dyHiJaR3UySmG_7gQtamrDVfAqYFR_xW'
+        #sheet_id = '1506068283'
+        #sheet_url = f'https://docs.google.com/spreadsheets/d/{doc_id}/export?format=csv&gid={sheet_id}'
+        #personas = pd.read_csv(sheet_url)
     
-        st.write("¡ya leyó el gsheets!")
+        #st.write("¡ya leyó el gsheets!")
         
-        for k, row in personas.iterrows():
-            print(k)
-            cursor.execute(
-                """INSERT INTO personas (cedula, nombres, apellidos, cargo, tipoNombramiento, nivel2, nivel3, nivel4, proceso, subproceso) 
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-                (row["Identificación"], row["Nombres"], row["Apellidos"], row["Cargo"], row["Tipo Nombramiento"], row["Dependencia Nivel 2"], row["Dependencia Nivel 3"], row["Dependencia Nivel 4"], row["Proceso"], row["Subproceso"])
-            )
-            if k % 100:
-                cursor.close()
-                conn.close()
-                conn, cursor = nuevaConexion()
+        #for k, row in personas.iterrows():
+        #    print(k)
+        #    cursor.execute(
+        #        """INSERT INTO personas (cedula, nombres, apellidos, cargo, tipoNombramiento, nivel2, nivel3, nivel4, proceso, subproceso) 
+        #        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+        #        (row["Identificación"], row["Nombres"], row["Apellidos"], row["Cargo"], row["Tipo Nombramiento"], row["Dependencia Nivel 2"], row["Dependencia Nivel 3"], row["Dependencia Nivel 4"], row["Proceso"], row["Subproceso"])
+        #    )
+        #    if k % 100:
+        #        cursor.close()
+        #        conn.close()
+        #        conn, cursor = nuevaConexion()
                 
         st.write("¡¡¡ya insertó en la bd!!!")
+
+    ###################################################################
+    # pruebas
+    ###################################################################
+    sql = """SELECT * FROM personas;"""
+    cursor.execute(sql)
+    rows = cursor.fetchall()
+    col_names = [desc[0] for desc in cursor.description]
+    personasdf = pd.DataFrame(rows, columns=col_names)
+
+    sql = """SELECT * FROM fichas;"""
+    cursor.execute(sql)
+    rows = cursor.fetchall()
+    col_names = [desc[0] for desc in cursor.description]
+    fichasdf = pd.DataFrame(rows, columns=col_names)
+    
     ###################################################################
     # CERRAR CONEXIÓN A BD
     ###################################################################
-    return personasdf, conn, cursor
+    return personasdf, fichasdf, conn, cursor
     
-personasdf, conn, cursor = inicializar()
+personasdf, fichasdf, conn, cursor = inicializar()
 
 st.dataframe(personasdf.head())
+st.dataframe(fichasdf.head())
 
 cedulaSeleccionada = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", )
 st.write(cedulaSeleccionada)
