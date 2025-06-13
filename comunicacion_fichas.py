@@ -144,8 +144,10 @@ if (cedulaSeleccionada != None):
     st.write("**Dependencia:**", nivel2, "-", nivel3, "-", nivel4)
     st.write("**Proceso:**", proceso)
     st.write("**Subproceso:**", subproceso)
+
+    fichasDelProcesoYCargo = fichasdf.loc[fichasdf["proceso"]==proceso & fichasdf["subproceso"]==subproceso & fichasdf["cargo"]==cargo, "ficha"]
     
-    st.selectbox(label="Ficha", options=fichasdf["ficha"], index=None, placeholder="Selecciona una ficha...",)
+    st.selectbox(label="Ficha", options=fichasDelProcesoYCargo, index=None, placeholder="Selecciona una ficha...",)
     st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
     st.selectbox(label="Motivo del cambio de ficha", options=("Reubicación","Cambio de funciones"), index=None, placeholder="Selecciona el motivo...", help="Solo diligenciar si a alguien con ficha se le cambia de nuevo la ficha")
     st.text_area(label="Observaciones", height=150)
