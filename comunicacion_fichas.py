@@ -145,8 +145,11 @@ if (cedulaSeleccionada != None):
     st.write("**Proceso:**", proceso)
     st.write("**Subproceso:**", subproceso)
 
+
+
+
+    
     fichasDelProcesoYCargo = fichasdf.loc[fichasdf["cargo"].str.upper()==cargo, "ficha"]
-    st.dataframe(fichasDelProcesoYCargo)
     
     st.selectbox(label="Ficha", options=fichasdf["ficha"], index=None, placeholder="Selecciona una ficha...",)
     st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
