@@ -150,10 +150,10 @@ if (cedulaSeleccionada != None):
     st.write("**Proceso:**", proceso)
     st.write("**Subproceso:**", subproceso)
     
-    st.text_input(label="Ficha", value="TP-AD-3007")
+    st.selectbox(label="Ficha", options=fichasdf["ficha"], index=None, placeholder="Selecciona una ficha...",)
     st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
     st.selectbox(label="Motivo del cambio de ficha", options=("Reubicación","Cambio de funciones"), index=None, placeholder="Selecciona el motivo...", help="Solo diligenciar si a alguien con ficha se le cambia de nuevo la ficha")
-    st.text_input(label="Observaciones", value="TP-AD-3007")
+    st.text_area(label="Observaciones", height=200)
     
 
 
