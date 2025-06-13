@@ -148,7 +148,8 @@ if (cedulaSeleccionada != None):
 
     # Solo mostrar las fichas del proceso, subrpoceso y cargo.
     distancias = fichasdf["proceso"].apply(lambda x: Levenshtein.distance(x, proceso))
-    st.write(distancias.idxmin())
+    st.write("llegó")
+    st.write(fichasdf.loc[distancias.idxmin(),"proceso"])
     st.dataframe(distancias)
     #procesodefichas = fichasdf.loc[distancias.idxmin(),"proceso"]
     #distancias = fichasdf["subproceso"].apply(lambda x: Levenshtein.distance(x, subproceso))
