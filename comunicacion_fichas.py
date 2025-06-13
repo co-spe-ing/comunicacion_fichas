@@ -125,9 +125,6 @@ def inicializar():
     
 personasdf, fichasdf, conn, cursor = inicializar()
 
-st.dataframe(personasdf.head())
-st.dataframe(fichasdf.head())
-
 cedulaSeleccionada = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", )
 st.write(cedulaSeleccionada)
 if (cedulaSeleccionada != None):
