@@ -5,6 +5,8 @@ from streamlit_gsheets import GSheetsConnection
 from io import BytesIO
 import requests
 import psycopg2
+from io import StringIO
+
 
 st.write("hola 13 de junio ...")
 
@@ -76,10 +78,11 @@ def inicializar():
         ###################################################################
         sheet_url = "https://raw.githubusercontent.com/co-spe-ing/comunicacion_fichas/refs/heads/main/Fichas.csv"
         fichas = pd.read_csv(sheet_url)
+        buffer = StringIO()
+        fichas.to_csv(buffer, index=False, header=False)
+        buffer.seek(0)
 
-        with open(sheet_url, 'r') as f:
-            cursor.copy_from(f, 'fichas', sep=';')
-
+        cur.copy_from(buffer, 'fichas', sep=';')
 
         
         ###################################################################
