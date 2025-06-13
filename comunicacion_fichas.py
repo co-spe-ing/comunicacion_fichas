@@ -77,7 +77,7 @@ def inicializar():
         # INSERTAR DATOS DE FICHAS EN TABLA
         ###################################################################
         sheet_url = "https://raw.githubusercontent.com/co-spe-ing/comunicacion_fichas/refs/heads/main/Fichas.csv"
-        fichas = pd.read_csv(sheet_url)
+        fichas = pd.read_csv(sheet_url, sep=";")
         st.dataframe(fichas)
         
         buffer = StringIO()
