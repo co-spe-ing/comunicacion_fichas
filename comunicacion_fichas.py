@@ -6,6 +6,7 @@ from io import BytesIO
 import requests
 import psycopg2
 from io import StringIO
+import Levenshtein
 
 
 st.write("Bogotá, 13 de junio de 2025.")
@@ -145,11 +146,15 @@ if (cedulaSeleccionada != None):
     st.write("**Proceso:**", proceso)
     st.write("**Subproceso:**", subproceso)
 
-
-
+    # Solo mostrar las fichas del proceso, subrpoceso y cargo.
+    distancias = fichasdf["proceso"].apply(lambda x: Levenshtein.distance(x, proceso))
+    procesodefichas = fichasdf.loc[distancias.idxmin(),"proceso"]
+    distancias = fichasdf["subproceso"].apply(lambda x: Levenshtein.distance(x, subproceso))
+    subprocesodefichas = fichasdf.loc[distancias.idxmin(),"subproceso"].to_numpy()[0]
 
     
-    fichasDelProcesoYCargo = fichasdf.loc[fichasdf["cargo"].str.upper()==cargo, "ficha"]
+    fichasDelProcesoYCargo = fichasdf.loc[(fichasdf["cargo"].str.upper()==cargo) & (fichasdf["proceso"]==procesodefichas), "ficha"]
+    st.dataframe(fichasDelProcesoYCargo)
     
     st.selectbox(label="Ficha", options=fichasdf["ficha"], index=None, placeholder="Selecciona una ficha...",)
     st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
