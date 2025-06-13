@@ -69,6 +69,8 @@ def inicializar():
         cursor.execute(sqlTabla2)
         cursor.execute(sqlTabla3)
 
+        st.write("¡¡¡Tablas creadas!!!")
+        
         ###################################################################
         # INSERTAR DATOS DE FICHAS EN TABLA
         ###################################################################
@@ -102,7 +104,7 @@ def inicializar():
         #        conn.close()
         #        conn, cursor = nuevaConexion()
                 
-        st.write("¡¡¡ya insertó en la bd!!!")
+        st.write("¡¡¡tablas pobladas!!!")
 
     ###################################################################
     # pruebas
