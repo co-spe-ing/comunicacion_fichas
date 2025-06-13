@@ -8,7 +8,7 @@ import psycopg2
 from io import StringIO
 
 
-st.write("hola 13 de junio ...")
+st.write("Bogotá, 13 de junio de 2025.")
 
 @st.cache_resource
 def inicializar():
