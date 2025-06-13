@@ -79,10 +79,10 @@ def inicializar():
         sheet_url = "https://raw.githubusercontent.com/co-spe-ing/comunicacion_fichas/refs/heads/main/Fichas.csv"
         fichas = pd.read_csv(sheet_url)
         buffer = StringIO()
-        fichas.to_csv(buffer, index=False, header=False)
+        fichas.to_csv(buffer, index=False, header=False, sep='|')
         buffer.seek(0)
 
-        cur.copy_from(buffer, 'fichas', sep=';')
+        cur.copy_from(buffer, 'fichas', sep='|')
 
         
         ###################################################################
