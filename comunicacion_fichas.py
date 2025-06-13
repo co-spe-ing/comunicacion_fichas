@@ -70,11 +70,9 @@ def inicializar():
         #cursor.execute(sqlTabla1)
         cursor.execute(sqlTabla2)
         cursor.execute(sqlTabla3)
-
-        st.write("¡¡¡Tablas creadas!!!")
         
         ###################################################################
-        # INSERTAR DATOS DE FICHAS EN TABLA
+        # INSERTAR DATOS EN TABLA FICHAS
         ###################################################################
         sheet_url = "https://raw.githubusercontent.com/co-spe-ing/comunicacion_fichas/refs/heads/main/Fichas.csv"
         fichas = pd.read_csv(sheet_url, sep=";")
@@ -84,9 +82,8 @@ def inicializar():
         buffer.seek(0)
         cursor.copy_from(buffer, 'fichas', sep='|')
 
-        
         ###################################################################
-        # INSERTAR DATOS DE PERSONAS EN TABLA
+        # INSERTAR DATOS EN TABLA PERSONAS
         ###################################################################
         #doc_id = '1dyHiJaR3UySmG_7gQtamrDVfAqYFR_xW'
         #sheet_id = '1506068283'
@@ -106,8 +103,6 @@ def inicializar():
         #        cursor.close()
         #        conn.close()
         #        conn, cursor = nuevaConexion()
-                
-        st.write("¡¡¡tablas pobladas!!!")
 
     ###################################################################
     # pruebas
