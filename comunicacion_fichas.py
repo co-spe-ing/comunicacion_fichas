@@ -141,9 +141,7 @@ if (cedulaSeleccionada != None):
     st.write("**Apellidos:**", apellidos)
     st.write("**Cargo:**", cargo)
     st.write("**Tipo de nombramiento:**", tiponombramiento)
-    st.write("**Dependencia nivel 2:**", nivel2)
-    st.write("**Dependencia nivel 3:**", nivel3)
-    st.write("**Dependencia nivel 4:**", nivel4)
+    st.write("**Dependencia:**", nivel2, "-", nivel3, "-", nivel4)
     st.write("**Proceso:**", proceso)
     st.write("**Subproceso:**", subproceso)
     
