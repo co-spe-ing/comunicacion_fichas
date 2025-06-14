@@ -155,7 +155,7 @@ if (cedulaSeleccionada != None):
     st.write(procesodefichas)
     st.write(subprocesodefichas)
     
-    fichasDelProcesoYCargo = fichasdf.loc[(fichasdf["cargo"].str.upper()==cargo) & (fichasdf["proceso"]==procesodefichas), "ficha"]
+    fichasDelProcesoYCargo = fichasdf.loc[(fichasdf["cargo"].str.upper()==cargo) & ((fichasdf["proceso"]==procesodefichas) & (fichasdf["subproceso"]==subprocesodefichas)), "ficha"]
     st.dataframe(fichasDelProcesoYCargo)
     
     st.selectbox(label="Ficha", options=fichasDelProcesoYCargo, index=None, placeholder="Selecciona una ficha...",)
