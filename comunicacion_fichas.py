@@ -105,7 +105,7 @@ def inicializar():
         #        conn, cursor = nuevaConexion()
 
     ###################################################################
-    # pruebas
+    # LEER DATOS
     ###################################################################
     sql = """SELECT * FROM personas;"""
     cursor.execute(sql)
@@ -151,12 +151,7 @@ if (cedulaSeleccionada != None):
     procesodefichas = fichasdf.loc[distancias.idxmin(),"proceso"]
     distancias = fichasdf["subproceso"].apply(lambda x: Levenshtein.distance(x, subproceso))
     subprocesodefichas = fichasdf.loc[distancias.idxmin(),"subproceso"]
-    
-    st.write(procesodefichas)
-    st.write(subprocesodefichas)
-    
     fichasDelProcesoYCargo = fichasdf.loc[(fichasdf["cargo"].str.upper()==cargo) & ((fichasdf["proceso"]==procesodefichas) & (fichasdf["subproceso"]==subprocesodefichas)), "ficha"]
-    st.dataframe(fichasDelProcesoYCargo)
     
     st.selectbox(label="Ficha", options=fichasDelProcesoYCargo, index=None, placeholder="Selecciona una ficha...",)
     st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
