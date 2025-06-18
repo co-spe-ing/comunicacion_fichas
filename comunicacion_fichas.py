@@ -62,8 +62,8 @@ def inicializar():
             cedula VARCHAR(20) NOT NULL,
             ficha VARCHAR(12) NOT NULL,
             fechaComunicacion DATE NOT NULL,
-            motivoCambio VARCHAR(30) NOT NULL,
-            observaciones VARCHAR(2000) NOT NULL,
+            motivoCambio VARCHAR(30) NULL,
+            observaciones VARCHAR(2000) NULL,
             fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );"""
         sqlTabla3 = """CREATE TABLE fichas (
