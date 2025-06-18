@@ -157,6 +157,7 @@ if (cedulaSeleccionada != None):
     motivo = st.selectbox(label="Motivo del cambio de ficha", options=("Reubicación","Cambio de funciones"), index=None, placeholder="Selecciona el motivo...", help="Solo diligenciar si a alguien con ficha se le cambia de nuevo la ficha")
     observaciones = st.text_area(label="Observaciones", height=150)
 
+    st.write("!Antes de guardar verifica que los datos han sido diligenciados correctamente¡"
     if st.button("Guardar"):
         if ficha and fechaFicha:
             conn, cursor = nuevaConexion()
@@ -166,7 +167,7 @@ if (cedulaSeleccionada != None):
             conn.close()
             st.success("Se ha guardado correctamente.")
         else:
-            st.warning("Por favor ingrese la ficha y la fecha de comunicación de la ficha.")
+            st.warning("Por favor ingresa la ficha y la fecha de comunicación de la ficha.")
 
 resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
 st.dataframe(resdf)
