@@ -138,11 +138,11 @@ if (cedulaSeleccionada != None):
     subproceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "subproceso"].to_numpy()[0]
     
     # Consular si previamente ya le han asignado ficha al funcionario
+    fichaPrevia = ""
     sql = """SELECT ficha FROM fichaxpersona WHERE cedula='"""+cedulaSeleccionada+"""' ORDER BY fechaComunicacion DESC;"""
     resdf = consultaSQL(sql)
-    st.dataframe(resdf)
-    st.write(resdf)
-    
+    if not resdf.empty: 
+        fichaPrevia = resdf.iloc[0,0]
     
     st.write("**Cédula:**",cedulaSeleccionada)
     st.write("**Nombres:**",nombres)
