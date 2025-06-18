@@ -11,6 +11,13 @@ import Levenshtein
 
 st.write("Bogotá, 13 de junio de 2025.")
 
+def consultaSQL(query):
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    col_names = [desc[0] for desc in cursor.description]
+    resdf = pd.DataFrame(rows, columns=col_names)
+    return(resdf)
+
 @st.cache_resource
 def inicializar():
     ###################################################################
@@ -107,17 +114,8 @@ def inicializar():
     ###################################################################
     # LEER DATOS
     ###################################################################
-    sql = """SELECT * FROM personas;"""
-    cursor.execute(sql)
-    rows = cursor.fetchall()
-    col_names = [desc[0] for desc in cursor.description]
-    personasdf = pd.DataFrame(rows, columns=col_names)
-
-    sql = """SELECT * FROM fichas;"""
-    cursor.execute(sql)
-    rows = cursor.fetchall()
-    col_names = [desc[0] for desc in cursor.description]
-    fichasdf = pd.DataFrame(rows, columns=col_names)
+    personasdf = consultaSQL("""SELECT * FROM personas;""")
+    fichasdf = consultaSQL("""SELECT * FROM fichas;""")
     
     ###################################################################
     # CERRAR CONEXIÓN A BD
@@ -161,12 +159,13 @@ if (cedulaSeleccionada != None):
     if st.button("Guardar"):
         if fecha and fechaFicha:
             cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones) 
-                            VALUES (%s, %s, %s, %s, %s)""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones))
+                            VALUES (%s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones))
             st.success("Se ha guardado correctamente.")
         else:
             st.warning("Por favor ingrese la ficha y la fecha de comunicación de la ficha.")
 
-
+resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
+st.dataframe(resdf)
     
 
 
