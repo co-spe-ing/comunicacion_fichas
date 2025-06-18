@@ -136,6 +136,8 @@ if (cedulaSeleccionada != None):
     nivel4 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel4"].to_numpy()[0]
     proceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "proceso"].to_numpy()[0]
     subproceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "subproceso"].to_numpy()[0]
+    sql = """SELECT ficha FROM fichaxpersona WHERE cedula='"""+cedulaSeleccionada+"""' ORDER BY fechaComunicacion DESC;"""
+    fichaPrevia = consultaSQL(sql).iloc[0, 0]
     st.write("**Cédula:**",cedulaSeleccionada)
     st.write("**Nombres:**",nombres)
     st.write("**Apellidos:**", apellidos)
@@ -145,12 +147,7 @@ if (cedulaSeleccionada != None):
     else: st.write("**Dependencia:**", nivel2, "-", nivel3)
     st.write("**Proceso:**", proceso)
     st.write("**Subproceso:**", subproceso)
-    st.write("**Ficha:**", "")
-
-    sql = "SELECT ficha FROM fichaxpersona WHERE cedula='"+cedulaSeleccionada+"' ORDER BY fechaComunicacion DESC;"
-    sss = consultaSQL(sql).iloc[0, 0]
-    st.write(type(sss))
-    st.write(sss)
+    st.write("**Ficha:**", fichaPrevia)
 
     # Solo mostrar las fichas del proceso, subrpoceso y cargo.
     distancias = fichasdf["proceso"].apply(lambda x: Levenshtein.distance(x, proceso))
