@@ -164,8 +164,8 @@ if (cedulaSeleccionada != None):
     
     ficha = st.selectbox(label="Ficha", options=fichasDelProcesoYCargo, index=None, placeholder="Selecciona una ficha...",)
     fechaFicha = st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
-    motivo = st.selectbox(label="Motivo del cambio de ficha", options=("Reubicación","Cambio de funciones"), index=None, placeholder="Selecciona el motivo...", help="Solo diligenciar si a alguien con ficha se le cambia de nuevo la ficha")
-    observaciones = st.text_area(label="Observaciones", height=150)
+    motivo = st.selectbox(label="Motivo del cambio de ficha. (Opcional) Solo diligenciar si a alguien con ficha diligenciada se le cambia de nuevo la ficha.", options=("Reubicación","Cambio de funciones"), index=None, placeholder="Selecciona el motivo...", help="Solo diligenciar si a alguien con ficha se le cambia de nuevo la ficha")
+    observaciones = st.text_area(label="Observaciones (Opcional).", height=150)
 
     st.write("**¡Antes de guardar verifica que los datos han sido diligenciados correctamente!**")
     if st.button("Guardar"):
