@@ -136,7 +136,7 @@ if (cedulaSeleccionada != None):
     nivel4 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel4"].to_numpy()[0]
     proceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "proceso"].to_numpy()[0]
     subproceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "subproceso"].to_numpy()[0]
-    st.write("**Cédula**":,cedulaSeleccionada)
+    st.write("**Cédula:**",cedulaSeleccionada)
     st.write("**Nombres:**",nombres)
     st.write("**Apellidos:**", apellidos)
     st.write("**Cargo:**", cargo)
