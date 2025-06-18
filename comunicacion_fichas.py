@@ -149,7 +149,7 @@ if (cedulaSeleccionada != None):
 
     sql = "SELECT ficha FROM fichaxpersona WHERE cedula='"+cedulaSeleccionada+"' ORDER BY fechaComunicacion DESC;"
     sss = consultaSQL(sql).to_numpy()[0]
-    st.write(sss)
+    st.write(type(sss))
 
     # Solo mostrar las fichas del proceso, subrpoceso y cargo.
     distancias = fichasdf["proceso"].apply(lambda x: Levenshtein.distance(x, proceso))
