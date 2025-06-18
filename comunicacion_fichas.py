@@ -11,32 +11,32 @@ import Levenshtein
 
 st.write("Bogotá, 18 de junio de 2025.")
 
-def consultaSQL(query, cursor):
+
+
+def nuevaConexion():
+    conn = psycopg2.connect(
+        dbname = st.secrets.connections.postgresql.database,
+        user = st.secrets.connections.postgresql.username,
+        password = st.secrets.connections.postgresql.password,
+        host = st.secrets.connections.postgresql.host,
+        port = st.secrets.connections.postgresql.port
+    )
+    conn.autocommit = True
+    cursor = conn.cursor()
+    return conn, cursor
+
+def consultaSQL(query):
+    conn, cursor = nuevaConexion()
     cursor.execute(query)
     rows = cursor.fetchall()
     col_names = [desc[0] for desc in cursor.description]
     resdf = pd.DataFrame(rows, columns=col_names)
+    cursor.close()
+    conn.close
     return(resdf)
 
 @st.cache_resource
 def inicializar():
-    ###################################################################
-    # ABRIR CONEXIÓN A BD
-    ###################################################################
-    def nuevaConexion():
-        conn = psycopg2.connect(
-            dbname = st.secrets.connections.postgresql.database,
-            user = st.secrets.connections.postgresql.username,
-            password = st.secrets.connections.postgresql.password,
-            host = st.secrets.connections.postgresql.host,
-            port = st.secrets.connections.postgresql.port
-        )
-        conn.autocommit = True
-        cursor = conn.cursor()
-        return conn, cursor
-        
-    conn, cursor = nuevaConexion()
-
     ###################################################################
     # CREAR Y POBLAR TABLAS
     ###################################################################
@@ -72,6 +72,7 @@ def inicializar():
             proceso VARCHAR(300) NOT NULL,
             subproceso VARCHAR(300) NOT NULL
             );"""
+        conn, cursor = nuevaConexion()
         #cursor.execute("DROP TABLE IF EXISTS personas;")
         cursor.execute("DROP TABLE IF EXISTS fichaxpersona;")
         cursor.execute("DROP TABLE IF EXISTS fichas;")
@@ -111,18 +112,18 @@ def inicializar():
         #        conn.close()
         #        conn, cursor = nuevaConexion()
 
+        cursor.close()
+        conn.close()
+
     ###################################################################
     # LEER DATOS
     ###################################################################
-    personasdf = consultaSQL("""SELECT * FROM personas;""", cursor)
-    fichasdf = consultaSQL("""SELECT * FROM fichas;""", cursor)
+    personasdf = consultaSQL("""SELECT * FROM personas;""")
+    fichasdf = consultaSQL("""SELECT * FROM fichas;""")
     
-    ###################################################################
-    # CERRAR CONEXIÓN A BD
-    ###################################################################
-    return personasdf, fichasdf, conn, cursor
+    return personasdf, fichasdf
     
-personasdf, fichasdf, conn, cursor = inicializar()
+personasdf, fichasdf = inicializar()
 
 cedulaSeleccionada = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", )
 st.write(cedulaSeleccionada)
@@ -164,7 +165,7 @@ if (cedulaSeleccionada != None):
         else:
             st.warning("Por favor ingrese la ficha y la fecha de comunicación de la ficha.")
 
-resdf = consultaSQL("""SELECT * FROM fichaxpersona;""", cursor)
+resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
 st.dataframe(resdf)
     
 
