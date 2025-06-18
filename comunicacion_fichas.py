@@ -157,7 +157,7 @@ if (cedulaSeleccionada != None):
     observaciones = st.text_area(label="Observaciones", height=150)
 
     if st.button("Guardar"):
-        if fecha and fechaFicha:
+        if ficha and fechaFicha:
             cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones) 
                             VALUES (%s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones))
             st.success("Se ha guardado correctamente.")
