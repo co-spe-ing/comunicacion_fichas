@@ -170,19 +170,30 @@ if (cedulaSeleccionada != None):
     st.write("**¡Antes de guardar verifica que los datos han sido diligenciados correctamente!**")
     if st.button("Guardar"):
         if ficha and fechaFicha:
-            conn, cursor = nuevaConexion()
-            cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones) 
-                            VALUES (%s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones))
-            cursor.close()
-            conn.close()
-            st.success("Se ha guardado correctamente.")
+            if fichaPrevia != "":
+                if motivo:
+                    conn, cursor = nuevaConexion()
+                    cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones) 
+                                    VALUES (%s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones))
+                    cursor.close()
+                    conn.close()
+                    st.success("Se ha guardado correctamente.")
+                else:
+                    st.warning("Por favor ingresa el motivo del cambio de ficha.")
+            else:
+                conn, cursor = nuevaConexion()
+                cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones) 
+                                    VALUES (%s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones))
+                cursor.close()
+                conn.close()
+                st.success("Se ha guardado correctamente.")
         else:
             st.warning("Por favor ingresa la ficha y la fecha de comunicación de la ficha.")
 
 resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
 st.dataframe(resdf)
     
-
+        
 
 
 
