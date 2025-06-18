@@ -149,7 +149,7 @@ if (cedulaSeleccionada != None):
 
     sql = "SELECT ficha FROM fichaxpersona WHERE cedula='"+cedulaSeleccionada+"' ORDER BY fechaComunicacion DESC;"
     sss = consultaSQL(sql).iloc[0, 0]
-    st.write(sss.shape)
+    st.write(type(sss))
     st.write(sss)
 
     # Solo mostrar las fichas del proceso, subrpoceso y cargo.
