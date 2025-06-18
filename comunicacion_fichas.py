@@ -11,7 +11,7 @@ import Levenshtein
 
 st.write("Bogotá, 13 de junio de 2025.")
 
-def consultaSQL(query):
+def consultaSQL(query, cursor):
     cursor.execute(query)
     rows = cursor.fetchall()
     col_names = [desc[0] for desc in cursor.description]
@@ -114,8 +114,8 @@ def inicializar():
     ###################################################################
     # LEER DATOS
     ###################################################################
-    personasdf = consultaSQL("""SELECT * FROM personas;""")
-    fichasdf = consultaSQL("""SELECT * FROM fichas;""")
+    personasdf = consultaSQL("""SELECT * FROM personas;""", cursor)
+    fichasdf = consultaSQL("""SELECT * FROM fichas;""", cursor)
     
     ###################################################################
     # CERRAR CONEXIÓN A BD
@@ -164,7 +164,7 @@ if (cedulaSeleccionada != None):
         else:
             st.warning("Por favor ingrese la ficha y la fecha de comunicación de la ficha.")
 
-resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
+resdf = consultaSQL("""SELECT * FROM fichaxpersona;""", cursor)
 st.dataframe(resdf)
     
 
