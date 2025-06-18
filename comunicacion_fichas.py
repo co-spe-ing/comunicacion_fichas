@@ -9,7 +9,7 @@ from io import StringIO
 import Levenshtein
 
 
-st.write("Bogotá, 13 de junio de 2025.")
+st.write("Bogotá, 18 de junio de 2025.")
 
 def consultaSQL(query, cursor):
     cursor.execute(query)
