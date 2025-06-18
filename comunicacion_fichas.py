@@ -147,7 +147,7 @@ if (cedulaSeleccionada != None):
     st.write("**Subproceso:**", subproceso)
     st.write("**Ficha:**", "")
 
-    sql = """SELECT ficha FROM fichaxpersona WHERE cedula=%s;""",cedulaSeleccionada
+    sql = """SELECT ficha FROM fichaxpersona WHERE cedula=(%s);""",(cedulaSeleccionada)
     st.write(sql)
     
 
