@@ -32,7 +32,7 @@ def consultaSQL(query):
     col_names = [desc[0] for desc in cursor.description]
     resdf = pd.DataFrame(rows, columns=col_names)
     cursor.close()
-    conn.close
+    conn.close()
     return(resdf)
 
 @st.cache_resource
@@ -163,7 +163,7 @@ if (cedulaSeleccionada != None):
             cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones) 
                             VALUES (%s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones))
             cursor.close()
-            connection.close()
+            conn.close()
             st.success("Se ha guardado correctamente.")
         else:
             st.warning("Por favor ingrese la ficha y la fecha de comunicación de la ficha.")
