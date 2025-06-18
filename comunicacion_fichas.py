@@ -147,6 +147,10 @@ if (cedulaSeleccionada != None):
     st.write("**Subproceso:**", subproceso)
     st.write("**Ficha:**", "")
 
+    sql = """SELECT ficha FROM fichaxpersona WHERE cedula=%s;""",cedulaSeleccionada
+    st.write(sql)
+    
+
     # Solo mostrar las fichas del proceso, subrpoceso y cargo.
     distancias = fichasdf["proceso"].apply(lambda x: Levenshtein.distance(x, proceso))
     procesodefichas = fichasdf.loc[distancias.idxmin(),"proceso"]
