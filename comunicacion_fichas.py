@@ -8,7 +8,7 @@ import psycopg2
 from io import StringIO
 import Levenshtein
 
-st.logo("https://github.com/co-spe-ing/comunicacion_fichas/blob/main/Logo.png")
+st.logo("https://github.com/co-spe-ing/comunicacion_fichas/blob/e692aa5b85ae682f32a68e637c38310dd414c9d3/Logo.png")
 st.write("Bogotá, 18 de junio de 2025.")
 
 
