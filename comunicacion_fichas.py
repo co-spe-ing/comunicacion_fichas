@@ -148,7 +148,7 @@ if (cedulaSeleccionada != None):
     st.write("**Ficha:**", "")
 
     sql = "SELECT ficha FROM fichaxpersona WHERE cedula='"+cedulaSeleccionada+"'"
-    sss = consultaSQL(query)
+    sss = consultaSQL(sql)
     st.dataframe(sss)
 
     # Solo mostrar las fichas del proceso, subrpoceso y cargo.
