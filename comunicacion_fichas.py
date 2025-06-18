@@ -126,7 +126,6 @@ def inicializar():
 personasdf, fichasdf = inicializar()
 
 cedulaSeleccionada = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", )
-st.write(cedulaSeleccionada)
 if (cedulaSeleccionada != None):
     nombres = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nombres"].to_numpy()[0]
     apellidos = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "apellidos"].to_numpy()[0]
@@ -137,6 +136,7 @@ if (cedulaSeleccionada != None):
     nivel4 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel4"].to_numpy()[0]
     proceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "proceso"].to_numpy()[0]
     subproceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "subproceso"].to_numpy()[0]
+    st.write("**Cédula**:,cedulaSeleccionada)
     st.write("**Nombres:**",nombres)
     st.write("**Apellidos:**", apellidos)
     st.write("**Cargo:**", cargo)
