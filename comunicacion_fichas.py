@@ -139,7 +139,7 @@ if (cedulaSeleccionada != None):
     
     # Consular si previamente ya le han asignado ficha al funcionario
     fichaPrevia = ""
-    sql = """SELECT ficha FROM fichaxpersona WHERE cedula='"""+cedulaSeleccionada+"""' ORDER BY fechaComunicacion DESC;"""
+    sql = """SELECT ficha FROM fichaxpersona WHERE cedula='"""+cedulaSeleccionada+"""' ORDER BY fechaComunicacion;"""
     resdf = consultaSQL(sql)
     st.dataframe(resdf)
     if not resdf.empty: 
