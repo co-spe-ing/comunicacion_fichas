@@ -141,6 +141,7 @@ if (cedulaSeleccionada != None):
     fichaPrevia = ""
     sql = """SELECT ficha FROM fichaxpersona WHERE cedula='"""+cedulaSeleccionada+"""' ORDER BY fechaComunicacion DESC;"""
     resdf = consultaSQL(sql)
+    st.dataframe(resdf)
     if not resdf.empty: 
         fichaPrevia = resdf.iloc[0,0]
     
