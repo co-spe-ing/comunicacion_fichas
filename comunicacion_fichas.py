@@ -159,8 +159,11 @@ if (cedulaSeleccionada != None):
 
     if st.button("Guardar"):
         if ficha and fechaFicha:
+            conn, cursor = nuevaConexion()
             cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones) 
                             VALUES (%s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones))
+            cursor.close()
+            connection.close()
             st.success("Se ha guardado correctamente.")
         else:
             st.warning("Por favor ingrese la ficha y la fecha de comunicación de la ficha.")
