@@ -147,7 +147,7 @@ if (cedulaSeleccionada != None):
     st.write("**Subproceso:**", subproceso)
     st.write("**Ficha:**", "")
 
-    sql = "SELECT ficha FROM fichaxpersona WHERE cedula='"+cedulaSeleccionada+"'"
+    sql = "SELECT ficha FROM fichaxpersona WHERE cedula='"+cedulaSeleccionada+"' ORDER BY fechaComunicacion DESC;"
     sss = consultaSQL(sql)
     st.dataframe(sss)
 
