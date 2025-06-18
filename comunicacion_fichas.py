@@ -145,6 +145,7 @@ if (cedulaSeleccionada != None):
     else: st.write("**Dependencia:**", nivel2, "-", nivel3)
     st.write("**Proceso:**", proceso)
     st.write("**Subproceso:**", subproceso)
+    st.write("**Ficha:**, "")
 
     # Solo mostrar las fichas del proceso, subrpoceso y cargo.
     distancias = fichasdf["proceso"].apply(lambda x: Levenshtein.distance(x, proceso))
