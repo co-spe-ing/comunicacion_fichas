@@ -125,6 +125,24 @@ personasdf, fichasdf = inicializar()
 dependenciaSeleccionada = st.selectbox(label='Dependencia', options=sorted(personasdf["nivel2"].unique()), index=None, placeholder="Selecciona una dependencia...", )
 personasdf = personasdf.loc[personasdf["nivel2"]==dependenciaSeleccionada,]
 
+######################################################################
+# LOG IN FORM
+######################################################################
+elPassword = "cspe123"
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+if not st.session_state.logged_in:
+    password = st.text_input("Contraseña", type="password")
+    submit = st.button("Login")
+
+    if submit:
+        if password==elPassword:
+            st.session_state.logged_in = True
+        else:
+            st.warning("La contraseña es incorrecta")
+######################################################################
+
+
 cedulaSeleccionada = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", )
 if (cedulaSeleccionada != None):
     nombres = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nombres"].to_numpy()[0]
