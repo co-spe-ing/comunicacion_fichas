@@ -142,74 +142,74 @@ if not st.session_state.logged_in:
             st.warning("La contraseña es incorrecta")
 ######################################################################
 
-
-cedulaSeleccionada = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", )
-if (cedulaSeleccionada != None):
-    nombres = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nombres"].to_numpy()[0]
-    apellidos = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "apellidos"].to_numpy()[0]
-    cargo = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "cargo"].to_numpy()[0]
-    tiponombramiento = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "tiponombramiento"].to_numpy()[0]
-    nivel2 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel2"].to_numpy()[0]
-    nivel3 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel3"].to_numpy()[0]
-    nivel4 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel4"].to_numpy()[0]
-    proceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "proceso"].to_numpy()[0]
-    subproceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "subproceso"].to_numpy()[0]
+if not st.session_state.logged_in:
+    cedulaSeleccionada = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", )
+    if (cedulaSeleccionada != None):
+        nombres = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nombres"].to_numpy()[0]
+        apellidos = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "apellidos"].to_numpy()[0]
+        cargo = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "cargo"].to_numpy()[0]
+        tiponombramiento = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "tiponombramiento"].to_numpy()[0]
+        nivel2 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel2"].to_numpy()[0]
+        nivel3 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel3"].to_numpy()[0]
+        nivel4 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel4"].to_numpy()[0]
+        proceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "proceso"].to_numpy()[0]
+        subproceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "subproceso"].to_numpy()[0]
+        
+        # Consular si previamente ya le han asignado ficha al funcionario
+        fichaPrevia = ""
+        sql = """SELECT ficha FROM fichaxpersona WHERE cedula='"""+cedulaSeleccionada+"""' ORDER BY fecharegistro DESC;"""
+        resdf = consultaSQL(sql)
+        if not resdf.empty: 
+            fichaPrevia = resdf.iloc[0,0]
+        
+        st.write("**Cédula:**",cedulaSeleccionada)
+        st.write("**Nombres:**",nombres)
+        st.write("**Apellidos:**", apellidos)
+        st.write("**Cargo:**", cargo)
+        st.write("**Tipo de nombramiento:**", tiponombramiento)
+        if nivel4 != "NaN": st.write("**Dependencia:**", nivel2, "-", nivel3, "-", nivel4) 
+        else: st.write("**Dependencia:**", nivel2, "-", nivel3)
+        st.write("**Proceso:**", proceso)
+        st.write("**Subproceso:**", subproceso)
+        st.write("**Ficha:**", fichaPrevia)
     
-    # Consular si previamente ya le han asignado ficha al funcionario
-    fichaPrevia = ""
-    sql = """SELECT ficha FROM fichaxpersona WHERE cedula='"""+cedulaSeleccionada+"""' ORDER BY fecharegistro DESC;"""
-    resdf = consultaSQL(sql)
-    if not resdf.empty: 
-        fichaPrevia = resdf.iloc[0,0]
+        # Solo mostrar las fichas del proceso, subrpoceso y cargo.
+        distancias = fichasdf["proceso"].apply(lambda x: Levenshtein.distance(x, proceso))
+        procesodefichas = fichasdf.loc[distancias.idxmin(),"proceso"]
+        distancias = fichasdf["subproceso"].apply(lambda x: Levenshtein.distance(x, subproceso))
+        subprocesodefichas = fichasdf.loc[distancias.idxmin(),"subproceso"]
+        fichasDelProcesoYCargo = fichasdf.loc[(fichasdf["cargo"].str.upper()==cargo) & ((fichasdf["proceso"]==procesodefichas) & (fichasdf["subproceso"]==subprocesodefichas)), "ficha"]
+        
+        ficha = st.selectbox(label="Ficha", options=fichasDelProcesoYCargo, index=None, placeholder="Selecciona una ficha...",)
+        fechaFicha = st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
+        motivo = st.selectbox(label="Motivo del cambio de ficha (Opcional). Solo diligenciar si a alguien con ficha diligenciada se le cambia de nuevo la ficha.", options=("Reubicación","Cambio de funciones"), index=None, placeholder="Selecciona el motivo...")
+        observaciones = st.text_area(label="Observaciones (Opcional).", height=150)
     
-    st.write("**Cédula:**",cedulaSeleccionada)
-    st.write("**Nombres:**",nombres)
-    st.write("**Apellidos:**", apellidos)
-    st.write("**Cargo:**", cargo)
-    st.write("**Tipo de nombramiento:**", tiponombramiento)
-    if nivel4 != "NaN": st.write("**Dependencia:**", nivel2, "-", nivel3, "-", nivel4) 
-    else: st.write("**Dependencia:**", nivel2, "-", nivel3)
-    st.write("**Proceso:**", proceso)
-    st.write("**Subproceso:**", subproceso)
-    st.write("**Ficha:**", fichaPrevia)
-
-    # Solo mostrar las fichas del proceso, subrpoceso y cargo.
-    distancias = fichasdf["proceso"].apply(lambda x: Levenshtein.distance(x, proceso))
-    procesodefichas = fichasdf.loc[distancias.idxmin(),"proceso"]
-    distancias = fichasdf["subproceso"].apply(lambda x: Levenshtein.distance(x, subproceso))
-    subprocesodefichas = fichasdf.loc[distancias.idxmin(),"subproceso"]
-    fichasDelProcesoYCargo = fichasdf.loc[(fichasdf["cargo"].str.upper()==cargo) & ((fichasdf["proceso"]==procesodefichas) & (fichasdf["subproceso"]==subprocesodefichas)), "ficha"]
-    
-    ficha = st.selectbox(label="Ficha", options=fichasDelProcesoYCargo, index=None, placeholder="Selecciona una ficha...",)
-    fechaFicha = st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
-    motivo = st.selectbox(label="Motivo del cambio de ficha (Opcional). Solo diligenciar si a alguien con ficha diligenciada se le cambia de nuevo la ficha.", options=("Reubicación","Cambio de funciones"), index=None, placeholder="Selecciona el motivo...")
-    observaciones = st.text_area(label="Observaciones (Opcional).", height=150)
-
-    st.write("**¡Antes de guardar verifica que los datos han sido diligenciados correctamente!**")
-    if st.button("Guardar"):
-        if ficha and fechaFicha:
-            if fichaPrevia != "":
-                if motivo:
+        st.write("**¡Antes de guardar verifica que los datos han sido diligenciados correctamente!**")
+        if st.button("Guardar"):
+            if ficha and fechaFicha:
+                if fichaPrevia != "":
+                    if motivo:
+                        conn, cursor = nuevaConexion()
+                        cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones) 
+                                        VALUES (%s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones))
+                        cursor.close()
+                        conn.close()
+                        st.success("Se ha guardado correctamente.")
+                    else:
+                        st.warning("Por favor ingresa el motivo del cambio de ficha.")
+                else:
                     conn, cursor = nuevaConexion()
                     cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones) 
-                                    VALUES (%s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones))
+                                        VALUES (%s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones))
                     cursor.close()
                     conn.close()
                     st.success("Se ha guardado correctamente.")
-                else:
-                    st.warning("Por favor ingresa el motivo del cambio de ficha.")
             else:
-                conn, cursor = nuevaConexion()
-                cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones) 
-                                    VALUES (%s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones))
-                cursor.close()
-                conn.close()
-                st.success("Se ha guardado correctamente.")
-        else:
-            st.warning("Por favor ingresa la ficha y la fecha de comunicación de la ficha.")
+                st.warning("Por favor ingresa la ficha y la fecha de comunicación de la ficha.")
 
-resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
-st.dataframe(resdf)
+    resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
+    st.dataframe(resdf)
     
 
 
