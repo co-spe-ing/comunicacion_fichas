@@ -122,7 +122,8 @@ def inicializar():
     
 personasdf, fichasdf = inicializar()
 
-dependencia = st.selectbox(label='Dependencia', options=sorted(personasdf["nivel2"].unique()), index=None, placeholder="Selecciona una dependencia...", )
+dependenciaSeleccionada = st.selectbox(label='Dependencia', options=sorted(personasdf["nivel2"].unique()), index=None, placeholder="Selecciona una dependencia...", )
+personasdf = personasdf.loc[personasdf["nivel2"]==dependenciaSeleccionada,]
 
 cedulaSeleccionada = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", )
 if (cedulaSeleccionada != None):
