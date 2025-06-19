@@ -122,6 +122,8 @@ def inicializar():
     
 personasdf, fichasdf = inicializar()
 
+dependencia = st.selectbox(label='Dependencia', options=personasdf["nivel2"].unique(), index=None, placeholder="Selecciona una dependencia...", )
+
 cedulaSeleccionada = st.selectbox(label='Cédula', options=personasdf["cedula"], index=None, placeholder="Selecciona una cédula...", )
 if (cedulaSeleccionada != None):
     nombres = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nombres"].to_numpy()[0]
@@ -190,7 +192,7 @@ if (cedulaSeleccionada != None):
 resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
 st.dataframe(resdf)
     
-        
+
 
 
 
