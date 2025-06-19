@@ -138,7 +138,7 @@ if not st.session_state.logged_in:
     if submit:
         if password==elPassword:
             st.session_state.logged_in = True
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.warning("La contraseña es incorrecta")
 
