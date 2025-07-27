@@ -32,6 +32,8 @@ def consultaSQL(query):
     conn.close()
     return(resdf)
 
+consultaSQL("Select version();")
+
 @st.cache_resource
 def inicializar():
     ###################################################################
