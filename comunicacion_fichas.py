@@ -48,11 +48,11 @@ def inicializar():
             cedula VARCHAR(20) PRIMARY KEY,
             nombres VARCHAR(100) NOT NULL,
             apellidos VARCHAR(100) NOT NULL,
-            cargo VARCHAR(100) NOT NULL,
-            tipoNombramiento VARCHAR(100) NOT NULL,
             nivel2 VARCHAR(200) NOT NULL,
             nivel3 VARCHAR(200) NOT NULL,
-            nivel4 VARCHAR(200) NOT NULL,
+            nivel4 VARCHAR(200) NOT NULL,            
+            cargo VARCHAR(100) NOT NULL,
+            tipoNombramiento VARCHAR(100) NOT NULL,
             proceso VARCHAR(300) NOT NULL,
             subproceso VARCHAR(300) NOT NULL
             );"""
@@ -72,10 +72,10 @@ def inicializar():
             subproceso VARCHAR(300) NOT NULL
             );"""
         conn, cursor = nuevaConexion()
-        #cursor.execute("DROP TABLE IF EXISTS personas;")
+        cursor.execute("DROP TABLE IF EXISTS personas;")
         cursor.execute("DROP TABLE IF EXISTS fichaxpersona;")
         cursor.execute("DROP TABLE IF EXISTS fichas;")
-        #cursor.execute(sqlTabla1)
+        cursor.execute(sqlTabla1)
         cursor.execute(sqlTabla2)
         cursor.execute(sqlTabla3)
         
@@ -92,25 +92,17 @@ def inicializar():
         ###################################################################
         # INSERTAR DATOS EN TABLA PERSONAS
         ###################################################################
-        #doc_id = '1dyHiJaR3UySmG_7gQtamrDVfAqYFR_xW'
-        #sheet_id = '1506068283'
-        #sheet_url = f'https://docs.google.com/spreadsheets/d/{doc_id}/export?format=csv&gid={sheet_id}'
-        #personas = pd.read_csv(sheet_url)
-    
-        #st.write("¡ya leyó el gsheets!")
-        
-        #for k, row in personas.iterrows():
-        #    print(k)
-        #    cursor.execute(
-        #        """INSERT INTO personas (cedula, nombres, apellidos, cargo, tipoNombramiento, nivel2, nivel3, nivel4, proceso, subproceso) 
-        #        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-        #        (row["Identificación"], row["Nombres"], row["Apellidos"], row["Cargo"], row["Tipo Nombramiento"], row["Dependencia Nivel 2"], row["Dependencia Nivel 3"], row["Dependencia Nivel 4"], row["Proceso"], row["Subproceso"])
-        #    )
-        #    if k % 100:
-        #        cursor.close()
-        #        conn.close()
-        #        conn, cursor = nuevaConexion()
+        doc_id = '1dyHiJaR3UySmG_7gQtamrDVfAqYFR_xW'
+        sheet_id = '1506068283'
+        sheet_url = f'https://docs.google.com/spreadsheets/d/{doc_id}/export?format=csv&gid={sheet_id}'
+        personas = pd.read_csv(sheet_url)
 
+        st.write("¡ya leyó el gsheets!")
+        
+        buffer = StringIO()
+        personas.to_csv(buffer, index=False, header=False, sep='|')
+        buffer.seek(0)
+        cursor.copy_from(buffer, 'personas', sep='|')
         cursor.close()
         conn.close()
 
@@ -217,6 +209,7 @@ if st.session_state.logged_in:
     resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
     st.dataframe(resdf)
     
+
 
 
 
