@@ -72,10 +72,10 @@ def inicializar():
             subproceso VARCHAR(300) NOT NULL
             );"""
         conn, cursor = nuevaConexion()
-        cursor.execute("DROP TABLE IF EXISTS personas;")
+        #cursor.execute("DROP TABLE IF EXISTS personas;")
         cursor.execute("DROP TABLE IF EXISTS fichaxpersona;")
         cursor.execute("DROP TABLE IF EXISTS fichas;")
-        cursor.execute(sqlTabla1)
+        #cursor.execute(sqlTabla1)
         cursor.execute(sqlTabla2)
         cursor.execute(sqlTabla3)
         
@@ -92,19 +92,16 @@ def inicializar():
         ###################################################################
         # INSERTAR DATOS EN TABLA PERSONAS
         ###################################################################
-        doc_id = '1dyHiJaR3UySmG_7gQtamrDVfAqYFR_xW'
-        sheet_id = '1506068283'
-        sheet_url = f'https://docs.google.com/spreadsheets/d/{doc_id}/export?format=csv&gid={sheet_id}'
-        personas = pd.read_csv(sheet_url)
-
-        st.write("¡ya leyó el gsheets!")
-        
-        buffer = StringIO()
-        personas.to_csv(buffer, index=False, header=False, sep='|')
-        buffer.seek(0)
-        cursor.copy_from(buffer, 'personas', sep='|')
-        cursor.close()
-        conn.close()
+        #doc_id = '1dyHiJaR3UySmG_7gQtamrDVfAqYFR_xW'
+        #sheet_id = '1506068283'
+        #sheet_url = f'https://docs.google.com/spreadsheets/d/{doc_id}/export?format=csv&gid={sheet_id}'
+        #personas = pd.read_csv(sheet_url)
+        #buffer = StringIO()
+        #personas.to_csv(buffer, index=False, header=False, sep='|')
+        #buffer.seek(0)
+        #cursor.copy_from(buffer, 'personas', sep='|')
+        #cursor.close()
+        #conn.close()
 
     ###################################################################
     # LEER DATOS
@@ -180,7 +177,7 @@ if st.session_state.logged_in:
         
         ficha = st.selectbox(label="Ficha", options=fichasDelProcesoYCargo, index=None, placeholder="Selecciona una ficha...",)
         fechaFicha = st.date_input(label="Fecha de comunicación de la ficha", value="today", format="DD/MM/YYYY")
-        motivo = st.selectbox(label="Motivo del cambio de ficha (Opcional). Solo diligenciar si a alguien con ficha diligenciada se le cambia de nuevo la ficha.", options=("Reubicación","Cambio de funciones"), index=None, placeholder="Selecciona el motivo...")
+        motivo = st.selectbox(label="Motivo del cambio de ficha (Opcional). Solo diligenciar si a alguien con ficha diligenciada se le cambia de nuevo la ficha.", options=("Reubicación","Cambio de funciones","Nombramiento"), index=None, placeholder="Selecciona el motivo...")
         observaciones = st.text_area(label="Observaciones (Opcional).", height=150)
     
         st.write("**¡Antes de guardar verifica que los datos han sido diligenciados correctamente!**")
@@ -209,6 +206,7 @@ if st.session_state.logged_in:
     resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
     st.dataframe(resdf)
     
+
 
 
 
