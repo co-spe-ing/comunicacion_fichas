@@ -114,7 +114,8 @@ def inicializar():
     
 personasdf, fichasdf = inicializar()
 
-st.session_state.dependenciaSeleccionada = False
+if "dependenciaSeleccionada" not in st.session_state:
+    st.session_state.dependenciaSeleccionada = False
 dependenciaSeleccionada = st.selectbox(label='Dependencia', options=sorted(personasdf["nivel2"].unique()), index=None, disabled=st.session_state.dependenciaSeleccionada, placeholder="Selecciona una dependencia...", )
 if dependenciaSeleccionada != None:
     st.session_state.dependenciaSeleccionada = True     
@@ -211,6 +212,7 @@ if st.session_state.logged_in:
     resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
     st.dataframe(resdf)
     
+
 
 
 
