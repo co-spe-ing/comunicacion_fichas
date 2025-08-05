@@ -9,7 +9,8 @@ from io import StringIO
 import Levenshtein
 
 st.logo("https://raw.githubusercontent.com/co-spe-ing/comunicacion_fichas/refs/heads/main/Logo.png", size="large")
-
+st.title("Levantamiento de Información de Comunicación de Funciones".
+         
 def nuevaConexion():
     conn = psycopg2.connect(
         dbname = st.secrets.connections.postgresql.database,
@@ -206,6 +207,7 @@ if st.session_state.logged_in:
     resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
     st.dataframe(resdf)
     
+
 
 
 
