@@ -68,7 +68,7 @@ def inicializar():
             );"""
         sqlTabla3 = """CREATE TABLE fichas (
             cargo VARCHAR(100) NOT NULL,
-            ficha VARCHAR(12) PRIMARY KEY,
+            ficha VARCHAR(12) NOT NULL,
             proceso VARCHAR(300) NOT NULL,
             subproceso VARCHAR(300) NOT NULL
             );"""
@@ -212,6 +212,7 @@ if st.session_state.logged_in:
     resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
     st.dataframe(resdf)
     
+
 
 
 
