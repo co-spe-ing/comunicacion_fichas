@@ -53,9 +53,7 @@ def inicializar():
             nivel3 VARCHAR(200) NOT NULL,
             nivel4 VARCHAR(200) NOT NULL,            
             cargo VARCHAR(100) NOT NULL,
-            tipoNombramiento VARCHAR(100) NOT NULL,
-            proceso VARCHAR(300) NOT NULL,
-            subproceso VARCHAR(300) NOT NULL
+            tipoNombramiento VARCHAR(100) NOT NULL
             );"""
         sqlTabla2 = """CREATE TABLE fichaxpersona (
             id SERIAL PRIMARY KEY,
@@ -73,10 +71,10 @@ def inicializar():
             subproceso VARCHAR(300) NOT NULL
             );"""
         conn, cursor = nuevaConexion()
-        #cursor.execute("DROP TABLE IF EXISTS personas;")
+        cursor.execute("DROP TABLE IF EXISTS personas;")
         cursor.execute("DROP TABLE IF EXISTS fichaxpersona;")
         cursor.execute("DROP TABLE IF EXISTS fichas;")
-        #cursor.execute(sqlTabla1)
+        cursor.execute(sqlTabla1)
         cursor.execute(sqlTabla2)
         cursor.execute(sqlTabla3)
         
@@ -93,16 +91,16 @@ def inicializar():
         ###################################################################
         # INSERTAR DATOS EN TABLA PERSONAS
         ###################################################################
-        #doc_id = '1dyHiJaR3UySmG_7gQtamrDVfAqYFR_xW'
-        #sheet_id = '1506068283'
-        #sheet_url = f'https://docs.google.com/spreadsheets/d/{doc_id}/export?format=csv&gid={sheet_id}'
-        #personas = pd.read_csv(sheet_url)
-        #buffer = StringIO()
-        #personas.to_csv(buffer, index=False, header=False, sep='|')
-        #buffer.seek(0)
-        #cursor.copy_from(buffer, 'personas', sep='|')
-        #cursor.close()
-        #conn.close()
+        doc_id = '1GmhEqRwQWYy69WpRBMop05Ty9DnsPUJh'
+        sheet_id = '916564190'
+        sheet_url = f'https://docs.google.com/spreadsheets/d/{doc_id}/export?format=csv&gid={sheet_id}'
+        personas = pd.read_csv(sheet_url)
+        buffer = StringIO()
+        personas.to_csv(buffer, index=False, header=False, sep='|')
+        buffer.seek(0)
+        cursor.copy_from(buffer, 'personas', sep='|')
+        cursor.close()
+        conn.close()
 
     ###################################################################
     # LEER DATOS
@@ -153,15 +151,13 @@ if st.session_state.logged_in:
         nivel2 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel2"].to_numpy()[0]
         nivel3 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel3"].to_numpy()[0]
         nivel4 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel4"].to_numpy()[0]
-        proceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "proceso"].to_numpy()[0]
-        subproceso = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "subproceso"].to_numpy()[0]
         
         # Consular si previamente ya le han asignado ficha al funcionario
-        fichaPrevia = ""
-        sql = """SELECT ficha FROM fichaxpersona WHERE cedula='"""+cedulaSeleccionada+"""' ORDER BY fecharegistro DESC;"""
-        resdf = consultaSQL(sql)
-        if not resdf.empty: 
-            fichaPrevia = resdf.iloc[0,0]
+        # fichaPrevia = ""
+        # sql = """SELECT ficha FROM fichaxpersona WHERE cedula='"""+cedulaSeleccionada+"""' ORDER BY fecharegistro DESC;"""
+        # resdf = consultaSQL(sql)
+        #  not resdf.empty: 
+        #    fichaPrevia = resdf.iloc[0,0]
         
         st.write("**Cédula:**",cedulaSeleccionada)
         st.write("**Nombres:**",nombres)
@@ -172,16 +168,14 @@ if st.session_state.logged_in:
         else: st.write("**Dependencia:**", nivel2, "-", nivel3)
         st.write("**Proceso:**", proceso)
         st.write("**Subproceso:**", subproceso)
-        st.write("**Ficha:**", fichaPrevia)
+        # st.write("**Ficha:**", fichaPrevia)
     
         # Solo mostrar las fichas del proceso, subrpoceso y cargo.
-        distancias = fichasdf["proceso"].apply(lambda x: Levenshtein.distance(x, proceso))
-        procesodefichas = fichasdf.loc[distancias.idxmin(),"proceso"]
-        distancias = fichasdf["subproceso"].apply(lambda x: Levenshtein.distance(x, subproceso))
-        subprocesodefichas = fichasdf.loc[distancias.idxmin(),"subproceso"]
-        fichasDelProcesoYCargo = fichasdf.loc[(fichasdf["cargo"].str.upper()==cargo) & ((fichasdf["proceso"]==procesodefichas) & (fichasdf["subproceso"]==subprocesodefichas)), "ficha"]
-        
-        ficha = st.selectbox(label="Ficha", options=fichasDelProcesoYCargo, index=None, placeholder="Selecciona una ficha...",)
+        proceso = st.selectbox(label="Proceso", options=sorted(fichasdf["proceso"].unique()), index=None, placeholder="Selecciona un proceso",)
+        subprocesosDelProcesoSeleccionado = sorted(fichasdf.loc[fichasdf["proceso"==proceso,"subproceso"].unique())  
+        subproceso = st.selectbox(label="Subproceso", options=subprocesosDelProcesoSeleccionado, index=None, placeholder="Selecciona un subproceso",)
+        fichasDelProcesoSubprocesoYCargo = fichasdf.loc[(fichasdf["cargo"]==cargo) & (fichasdf["proceso"]=proceso) & (fichasdf["subproceso"]==subproceso), "ficha"]     
+        ficha = st.selectbox(label="Ficha", options=fichasDelProcesoSubprocesoYCargo, index=None, placeholder="Selecciona una ficha...",)
         fechaFicha = st.date_input(label="Fecha de comunicación de la ficha", value=None, format="DD/MM/YYYY")
         motivo = st.selectbox(label="Motivo del cambio de ficha (Opcional). Solo diligenciar si a alguien con ficha diligenciada se le cambia de nuevo la ficha.", options=("Reubicación","Cambio de funciones","Nombramiento"), index=None, placeholder="Selecciona el motivo...")
         observaciones = st.text_area(label="Observaciones (Opcional).", height=150)
@@ -189,20 +183,20 @@ if st.session_state.logged_in:
         st.write("**¡Antes de guardar verifica que los datos han sido diligenciados correctamente!**")
         if st.button("Guardar"):
             if ficha and fechaFicha:
-                if fichaPrevia != "":
-                    if motivo:
-                        conn, cursor = nuevaConexion()
-                        cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones) 
-                                        VALUES (%s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones))
-                        cursor.close()
-                        conn.close()
-                        st.success("Se ha guardado correctamente.")
-                    else:
-                        st.warning("Por favor ingresa el motivo del cambio de ficha.")
-                else:
+                #if fichaPrevia != "":
+                #    if motivo:
+                #        conn, cursor = nuevaConexion()
+                #        cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones, proceso, subproceso) 
+                #                        VALUES (%s, %s, %s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones, proceso, subproceso))
+                #        cursor.close()
+                #        conn.close()
+                #        st.success("Se ha guardado correctamente.")
+                #    else:
+                #        st.warning("Por favor ingresa el motivo del cambio de ficha.")
+                #else:
                     conn, cursor = nuevaConexion()
-                    cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones) 
-                                        VALUES (%s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones))
+                    cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones, proceso, subproceso) 
+                                        VALUES (%s, %s, %s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones, proceso, subproceso)))
                     cursor.close()
                     conn.close()
                     st.success("Se ha guardado correctamente.")
@@ -212,6 +206,7 @@ if st.session_state.logged_in:
     resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
     st.dataframe(resdf)
     
+
 
 
 
