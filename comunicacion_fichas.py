@@ -53,18 +53,14 @@ def inicializar():
             nivel3 VARCHAR(200) NOT NULL,
             nivel4 VARCHAR(200) NOT NULL,            
             cargo VARCHAR(100) NOT NULL,
-            tipoNombramiento VARCHAR(100) NOT NULL
-            );"""
-        sqlTabla2 = """CREATE TABLE fichaxpersona (
-            id SERIAL PRIMARY KEY,
-            cedula VARCHAR(20) NOT NULL,
-            ficha VARCHAR(12) NOT NULL,
-            fechaComunicacion DATE NOT NULL,
-            motivoCambio VARCHAR(30) NULL,
+            tipoNombramiento VARCHAR(100) NOT NULL,
+            ficha VARCHAR(12) NULL,
+            fechaComunicacion DATE NULL,
             observaciones VARCHAR(2000) NULL,
-            fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            proceso VARCHAR(300) NULL,
+            subproceso VARCHAR(300) NULL
             );"""
-        sqlTabla3 = """CREATE TABLE fichas (
+        sqlTabla2 = """CREATE TABLE fichas (
             cargo VARCHAR(100) NOT NULL,
             ficha VARCHAR(12) NOT NULL,
             proceso VARCHAR(300) NOT NULL,
@@ -72,11 +68,9 @@ def inicializar():
             );"""
         conn, cursor = nuevaConexion()
         cursor.execute("DROP TABLE IF EXISTS personas;")
-        cursor.execute("DROP TABLE IF EXISTS fichaxpersona;")
         cursor.execute("DROP TABLE IF EXISTS fichas;")
         cursor.execute(sqlTabla1)
         cursor.execute(sqlTabla2)
-        cursor.execute(sqlTabla3)
         
         ###################################################################
         # INSERTAR DATOS EN TABLA FICHAS
@@ -107,7 +101,6 @@ def inicializar():
     ###################################################################
     personasdf = consultaSQL("""SELECT * FROM personas;""")
     fichasdf = consultaSQL("""SELECT * FROM fichas;""")
-    
     return personasdf, fichasdf
     
 personasdf, fichasdf = inicializar()
@@ -152,13 +145,6 @@ if st.session_state.logged_in:
         nivel3 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel3"].to_numpy()[0]
         nivel4 = personasdf.loc[personasdf["cedula"]==cedulaSeleccionada, "nivel4"].to_numpy()[0]
         
-        # Consular si previamente ya le han asignado ficha al funcionario
-        # fichaPrevia = ""
-        # sql = """SELECT ficha FROM fichaxpersona WHERE cedula='"""+cedulaSeleccionada+"""' ORDER BY fecharegistro DESC;"""
-        # resdf = consultaSQL(sql)
-        #  not resdf.empty: 
-        #    fichaPrevia = resdf.iloc[0,0]
-        
         st.write("**Cédula:**",cedulaSeleccionada)
         st.write("**Nombres:**",nombres)
         st.write("**Apellidos:**", apellidos)
@@ -166,7 +152,6 @@ if st.session_state.logged_in:
         st.write("**Tipo de nombramiento:**", tiponombramiento)
         if nivel4 != "NaN": st.write("**Dependencia:**", nivel2, "-", nivel3, "-", nivel4) 
         else: st.write("**Dependencia:**", nivel2, "-", nivel3)
-        # st.write("**Ficha:**", fichaPrevia)
     
         # Solo mostrar las fichas del proceso, subrpoceso y cargo.
         proceso = st.selectbox(label="Proceso", options=sorted(fichasdf["proceso"].unique()), index=None, placeholder="Selecciona un proceso",)
@@ -204,6 +189,7 @@ if st.session_state.logged_in:
     resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
     st.dataframe(resdf)
     
+
 
 
 
