@@ -172,7 +172,7 @@ if st.session_state.logged_in:
     
         # Solo mostrar las fichas del proceso, subrpoceso y cargo.
         proceso = st.selectbox(label="Proceso", options=sorted(fichasdf["proceso"].unique()), index=None, placeholder="Selecciona un proceso",)
-        subprocesosDelProcesoSeleccionado = sorted(fichasdf.loc[fichasdf["proceso"==proceso,"subproceso"].unique())  
+        subprocesosDelProcesoSeleccionado = sorted(fichasdf.loc[fichasdf["proceso"]==proceso,"subproceso"].unique())  
         subproceso = st.selectbox(label="Subproceso", options=subprocesosDelProcesoSeleccionado, index=None, placeholder="Selecciona un subproceso",)
         fichasDelProcesoSubprocesoYCargo = fichasdf.loc[(fichasdf["cargo"]==cargo) & (fichasdf["proceso"]=proceso) & (fichasdf["subproceso"]==subproceso), "ficha"]     
         ficha = st.selectbox(label="Ficha", options=fichasDelProcesoSubprocesoYCargo, index=None, placeholder="Selecciona una ficha...",)
@@ -206,6 +206,7 @@ if st.session_state.logged_in:
     resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
     st.dataframe(resdf)
     
+
 
 
 
