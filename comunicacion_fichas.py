@@ -6,7 +6,6 @@ from io import BytesIO
 import requests
 import psycopg2
 from io import StringIO
-import Levenshtein
 
 st.logo("https://raw.githubusercontent.com/co-spe-ing/comunicacion_fichas/refs/heads/main/Logo.png", size="large")
 st.title("Levantamiento de Información de Comunicación de Funciones")
@@ -166,29 +165,19 @@ if st.session_state.logged_in:
         st.write("**¡Antes de guardar verifica que los datos han sido diligenciados correctamente!**")
         if st.button("Guardar"):
             if ficha and fechaFicha:
-                #if fichaPrevia != "":
-                #    if motivo:
-                #        conn, cursor = nuevaConexion()
-                #        cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones, proceso, subproceso) 
-                #                        VALUES (%s, %s, %s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones, proceso, subproceso))
-                #        cursor.close()
-                #        conn.close()
-                #        st.success("Se ha guardado correctamente.")
-                #    else:
-                #        st.warning("Por favor ingresa el motivo del cambio de ficha.")
-                #else:
                     conn, cursor = nuevaConexion()
-                    cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones, proceso, subproceso) 
-                                        VALUES (%s, %s, %s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones, proceso, subproceso))
+                    cursor.execute("""UPDATE personas SET ficha=%s, fechaComunicacion=%s, observaciones=%s, proceso=%s, subproceso=%s   
+                                        WHERE cedula=%s;""", (ficha, fechaFicha, observaciones, proceso, subproceso, cedulaSeleccionada))
                     cursor.close()
                     conn.close()
                     st.success("Se ha guardado correctamente.")
             else:
                 st.warning("Por favor ingresa la ficha y la fecha de comunicación de la ficha.")
 
-    resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
+    resdf = consultaSQL("""SELECT * FROM personas WHERE cedula IS NOT NULL;""")
     st.dataframe(resdf)
     
+
 
 
 
