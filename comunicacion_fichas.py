@@ -174,7 +174,7 @@ if st.session_state.logged_in:
         proceso = st.selectbox(label="Proceso", options=sorted(fichasdf["proceso"].unique()), index=None, placeholder="Selecciona un proceso",)
         subprocesosDelProcesoSeleccionado = sorted(fichasdf.loc[fichasdf["proceso"]==proceso,"subproceso"].unique())  
         subproceso = st.selectbox(label="Subproceso", options=subprocesosDelProcesoSeleccionado, index=None, placeholder="Selecciona un subproceso",)
-        fichasDelProcesoSubprocesoYCargo = fichasdf.loc[(fichasdf["cargo"]==cargo) & (fichasdf["proceso"]=proceso) & (fichasdf["subproceso"]==subproceso), "ficha"]     
+        fichasDelProcesoSubprocesoYCargo = fichasdf.loc[(fichasdf["cargo"]==cargo) & (fichasdf["proceso"]==proceso) & (fichasdf["subproceso"]==subproceso), "ficha"]     
         ficha = st.selectbox(label="Ficha", options=fichasDelProcesoSubprocesoYCargo, index=None, placeholder="Selecciona una ficha...",)
         fechaFicha = st.date_input(label="Fecha de comunicación de la ficha", value=None, format="DD/MM/YYYY")
         motivo = st.selectbox(label="Motivo del cambio de ficha (Opcional). Solo diligenciar si a alguien con ficha diligenciada se le cambia de nuevo la ficha.", options=("Reubicación","Cambio de funciones","Nombramiento"), index=None, placeholder="Selecciona el motivo...")
@@ -206,6 +206,7 @@ if st.session_state.logged_in:
     resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
     st.dataframe(resdf)
     
+
 
 
 
