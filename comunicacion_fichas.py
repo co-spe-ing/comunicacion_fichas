@@ -175,9 +175,10 @@ if st.session_state.logged_in:
             else:
                 st.warning("Por favor ingresa la ficha y la fecha de comunicación de la ficha.")
 
-    resdf = consultaSQL("""SELECT * FROM personas WHERE cedula IS NOT NULL;""")
+    resdf = consultaSQL("""SELECT * FROM personas WHERE ficha IS NOT NULL;""")
     st.dataframe(resdf)
     
+
 
 
 
