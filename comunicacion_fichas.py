@@ -88,6 +88,7 @@ def inicializar():
         sheet_id = '916564190'
         sheet_url = f'https://docs.google.com/spreadsheets/d/{doc_id}/export?format=csv&gid={sheet_id}'
         personas = pd.read_csv(sheet_url)
+        st.dataframe(personas)
         buffer = StringIO()
         personas.to_csv(buffer, index=False, header=False, sep='|')
         buffer.seek(0)
@@ -177,6 +178,7 @@ if st.session_state.logged_in:
     resdf = consultaSQL("""SELECT * FROM personas WHERE cedula IS NOT NULL;""")
     st.dataframe(resdf)
     
+
 
 
 
