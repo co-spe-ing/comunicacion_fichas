@@ -196,7 +196,7 @@ if st.session_state.logged_in:
                 #else:
                     conn, cursor = nuevaConexion()
                     cursor.execute("""INSERT INTO fichaxpersona (cedula, ficha, fechaComunicacion, motivoCambio, observaciones, proceso, subproceso) 
-                                        VALUES (%s, %s, %s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones, proceso, subproceso)))
+                                        VALUES (%s, %s, %s, %s, %s, %s, %s);""", (cedulaSeleccionada, ficha, fechaFicha, motivo, observaciones, proceso, subproceso))
                     cursor.close()
                     conn.close()
                     st.success("Se ha guardado correctamente.")
@@ -206,6 +206,7 @@ if st.session_state.logged_in:
     resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
     st.dataframe(resdf)
     
+
 
 
 
