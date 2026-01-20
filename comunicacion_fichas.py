@@ -166,8 +166,6 @@ if st.session_state.logged_in:
         st.write("**Tipo de nombramiento:**", tiponombramiento)
         if nivel4 != "NaN": st.write("**Dependencia:**", nivel2, "-", nivel3, "-", nivel4) 
         else: st.write("**Dependencia:**", nivel2, "-", nivel3)
-        st.write("**Proceso:**", proceso)
-        st.write("**Subproceso:**", subproceso)
         # st.write("**Ficha:**", fichaPrevia)
     
         # Solo mostrar las fichas del proceso, subrpoceso y cargo.
@@ -206,6 +204,7 @@ if st.session_state.logged_in:
     resdf = consultaSQL("""SELECT * FROM fichaxpersona;""")
     st.dataframe(resdf)
     
+
 
 
 
